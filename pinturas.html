@@ -1482,6 +1482,58 @@
       .sticky-bar a span { font-size: 10px; }
       body { padding-bottom: 54px; }
     }
+  
+    /* ============================================================
+       MOBILE OVERFLOW FIX
+    ============================================================ */
+    html, body {
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+    * { box-sizing: border-box; }
+    img, video, iframe, svg { max-width: 100%; }
+
+    @media (max-width: 768px) {
+      /* Collapse ALL 2-column grids to 1 column */
+      [style*="grid-template-columns:1fr 1fr"],
+      [style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+      }
+      [style*="grid-template-columns:1.6fr"],
+      [style*="grid-template-columns: 1.6fr"] {
+        grid-template-columns: 1fr !important;
+      }
+      /* Remove horizontal padding that causes overflow */
+      .container { padding: 0 16px; }
+      /* Section padding tighter on mobile */
+      .section-pad { padding: 56px 0; }
+      /* Ensure no element is wider than viewport */
+      section, div, header, footer, nav {
+        max-width: 100vw;
+      }
+      /* Fix hero large text overflow */
+      .hero-title { font-size: 52px !important; }
+      .section-title { font-size: 32px !important; }
+      /* Fix stat grid */
+      .stats-grid { grid-template-columns: 1fr 1fr !important; }
+      /* Fix footer grid */
+      .footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+      /* Fix process/steps grids */
+      .process-grid { grid-template-columns: 1fr !important; }
+      .steps-grid   { grid-template-columns: 1fr !important; }
+      /* Fix services grid */
+      .services-grid { grid-template-columns: 1fr !important; }
+      /* Fix BA (before/after) grid */
+      .ba-grid { grid-template-columns: 1fr !important; }
+      /* Fix any inline grid with gap */
+      [style*="display:grid"] { max-width: 100%; }
+      /* CTA banner buttons stack */
+      .cta-banner-btns { flex-direction: column; align-items: center; }
+      .cta-banner h2 { font-size: 28px !important; }
+      /* Sticky bar text smaller */
+      .sticky-bar a { font-size: 11px; gap: 5px; }
+      .sticky-bar a svg { width: 16px; height: 16px; }
+    }
   </style>
 
   <style>
