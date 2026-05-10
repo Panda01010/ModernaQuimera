@@ -1424,6 +1424,15 @@
     @media (max-width: 960px) {
       .ba-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
     }
+  
+    /* STICKY BOTTOM BAR */
+    .sticky-bar { position:fixed;bottom:0;left:0;right:0;z-index:9000;background:var(--bg-card);border-top:1px solid rgba(200,154,58,0.25);display:flex;align-items:stretch;height:54px; }
+    .sticky-bar-btn { flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-family:var(--font-body);font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;border-right:1px solid rgba(200,154,58,0.1);transition:background 0.2s; }
+    .sticky-bar-btn:last-child{border-right:none;}
+    .sticky-bar-btn.s-phone{color:#4A9EE8;} .sticky-bar-btn.s-wa{color:#25D366;} .sticky-bar-btn.s-agenda{color:var(--accent-gold);}
+    .sticky-bar-btn:hover{background:rgba(200,154,58,0.07);}
+    .sticky-bar-btn svg{width:20px;height:20px;stroke-width:1.8;}
+    body{padding-bottom:54px;}
   </style>
 
   <style>
@@ -1845,10 +1854,10 @@
       <ul class="nav-links">
         <li><a href="index.html" class="nav-link">HOME</a></li>
         <li><a href="servicos.html" class="nav-link">SERVI&Ccedil;OS</a></li>
-        <li><a href="consultoria.html" class="nav-link">CONSULTORIA</a></li>
         <li><a href="obras.html" class="nav-link">OBRAS</a></li>
+        <li><a href="consultoria.html" class="nav-link">CONSULTORIA</a></li>
         <li><a href="sobre.html" class="nav-link">SOBRE N&Oacute;S</a></li>
-        <li><a href="vantagens.html" class="nav-link active">VANTAGENS</a></li>
+        <li><a href="blog.html" class="nav-link">BLOG</a></li>
         <li><a href="contactos.html" class="nav-link">CONTACTOS</a></li>
       </ul>
 
@@ -1871,10 +1880,10 @@
     <ul class="mobile-nav-links">
       <li><a href="index.html" class="mobile-nav-link">HOME</a></li>
       <li><a href="servicos.html" class="mobile-nav-link">SERVI&Ccedil;OS</a></li>
-      <li><a href="consultoria.html" class="mobile-nav-link">CONSULTORIA</a></li>
       <li><a href="obras.html" class="mobile-nav-link">OBRAS</a></li>
+      <li><a href="consultoria.html" class="mobile-nav-link">CONSULTORIA</a></li>
       <li><a href="sobre.html" class="mobile-nav-link">SOBRE N&Oacute;S</a></li>
-      <li><a href="vantagens.html" class="mobile-nav-link">VANTAGENS</a></li>
+      <li><a href="blog.html" class="mobile-nav-link">BLOG</a></li>
       <li><a href="contactos.html" class="mobile-nav-link">CONTACTOS</a></li>
     </ul>
     <div class="mobile-gold-line"></div>
@@ -2144,4 +2153,10 @@
         window.location.href = el.getAttribute('href');
       });
     });
-  </script></body></html>
+  </script>
+  <div class="sticky-bar" id="sticky-bar">
+    <a href="tel:+351927394029" class="sticky-bar-btn s-phone"><i data-lucide="phone"></i><span>Ligar</span></a>
+    <a href="https://wa.me/351927394029" target="_blank" class="sticky-bar-btn s-wa"><i data-lucide="message-circle"></i><span>WhatsApp</span></a>
+    <a href="consultoria.html" class="sticky-bar-btn s-agenda"><i data-lucide="calendar"></i><span>Agendar</span></a>
+  </div>
+</body></html>
