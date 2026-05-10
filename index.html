@@ -2484,4 +2484,23 @@
     </a>
   </div>
   <script src="https://widgets.leadconnectorhq.com/loader.js" data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" data-widget-id="6a010adcba1fce47fe7cf5d9"></script>
+  <script>
+    /* Push chat widget above sticky bar */
+    (function() {
+      var attempts = 0;
+      var interval = setInterval(function() {
+        attempts++;
+        /* LeadConnector injects a div/iframe near </body> — target all fixed bottom elements that aren't our sticky bar */
+        var all = document.querySelectorAll('body > div, body > iframe');
+        all.forEach(function(el) {
+          if (el.classList.contains('sticky-bar')) return;
+          var style = window.getComputedStyle(el);
+          if (style.position === 'fixed' && (style.bottom === '0px' || parseInt(style.bottom) < 58)) {
+            el.style.setProperty('bottom', '66px', 'important');
+          }
+        });
+        if (attempts > 20) clearInterval(interval);
+      }, 500);
+    })();
+  </script>
 </body></html>
