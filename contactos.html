@@ -1524,6 +1524,16 @@
       .sticky-bar a { font-size: 11px; gap: 5px; }
       .sticky-bar a svg { width: 16px; height: 16px; }
     }
+  
+    /* Push LeadConnector chat widget above sticky bar */
+    #LeadConnector_chat_widget,
+    [id*="leadconnector"],
+    [class*="leadconnector"],
+    [class*="chat-widget"],
+    iframe[src*="leadconnectorhq"],
+    div[data-widget-id] {
+      bottom: 66px !important;
+    }
   </style>
 
   <style>
@@ -1930,6 +1940,16 @@
       transition: max-height 0.35s ease, padding 0.3s ease;
     }
     .faq-item.open .faq-a { max-height: 300px; padding: 0 24px 22px; }
+  
+    /* Push LeadConnector chat widget above sticky bar */
+    #LeadConnector_chat_widget,
+    [id*="leadconnector"],
+    [class*="leadconnector"],
+    [class*="chat-widget"],
+    iframe[src*="leadconnectorhq"],
+    div[data-widget-id] {
+      bottom: 66px !important;
+    }
   </style>
 </head>
 <body><nav class="navbar" id="navbar">
