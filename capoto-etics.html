@@ -1862,7 +1862,7 @@
       <!-- Desktop nav links -->
       <ul class="nav-links">
         <li><a href="index.html" class="nav-link" data-page="home">HOME</a></li>
-        <li><a href="Servi&ccedil;os.html" class="nav-link" data-page="Servi&ccedil;os">SERVI&Ccedil;OS</a></li>
+        <li><a href="servicos.html" class="nav-link" data-page="Servi&ccedil;os">SERVI&Ccedil;OS</a></li>
         <li><a href="consultoria.html" class="nav-link" data-page="consultoria">CONSULTORIA</a></li>
         <li><a href="obras.html" class="nav-link" data-page="obras">OBRAS</a></li>
         <li><a href="sobre.html" class="nav-link" data-page="sobre">SOBRE N&Oacute;S</a></li>
@@ -1888,7 +1888,7 @@
     </div>
     <ul class="mobile-nav-links">
       <li><a href="index.html" class="mobile-nav-link" data-page="home">HOME</a></li>
-      <li><a href="Servi&ccedil;os.html" class="mobile-nav-link" data-page="Servi&ccedil;os">SERVI&Ccedil;OS</a></li>
+      <li><a href="servicos.html" class="mobile-nav-link" data-page="Servi&ccedil;os">SERVI&Ccedil;OS</a></li>
       <li><a href="consultoria.html" class="mobile-nav-link" data-page="consultoria">CONSULTORIA</a></li>
       <li><a href="obras.html" class="mobile-nav-link" data-page="obras">OBRAS</a></li>
       <li><a href="sobre.html" class="mobile-nav-link" data-page="sobre">SOBRE N&Oacute;S</a></li>
@@ -1957,7 +1957,7 @@
           <p class="footer-col-title">Links RÃ¡pidos</p>
           <ul class="footer-links-list">
             <li><a class="footer-link" href="index.html">Home</a></li>
-            <li><a class="footer-link" href="Servi&ccedil;os.html">SERVI&Ccedil;OS</a></li>
+            <li><a class="footer-link" href="servicos.html">SERVI&Ccedil;OS</a></li>
             <li><a class="footer-link" href="consultoria.html">Consultoria T&eacute;cnica</a></li>
             <li><a class="footer-link" href="obras.html">Obras</a></li>
             <li><a class="footer-link" href="vantagens.html">Vantagens</a></li>
@@ -2064,5 +2064,11 @@
       });
     }, { threshold: 0.1 });
     revealElements.forEach(el => observer.observe(el));
-  </script>
-    </body></html>
+  
+    // Make [href] elements clickable (for service cards)
+    document.querySelectorAll('[href]:not(a)').forEach(el => {
+      el.addEventListener('click', () => {
+        window.location.href = el.getAttribute('href');
+      });
+    });
+  </html>
