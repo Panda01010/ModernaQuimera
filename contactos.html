@@ -2324,14 +2324,14 @@
 
     if(hamburger) {
         hamburger.addEventListener('click', () => {
-        mobileMenu.classList.add('active');
+        mobileMenu.classList.add('open');
         document.body.style.overflow = 'hidden';
         });
     }
 
     if(mobileClose) {
         mobileClose.addEventListener('click', () => {
-        mobileMenu.classList.remove('active');
+        mobileMenu.classList.remove('open');
         document.body.style.overflow = 'auto';
         });
     }
