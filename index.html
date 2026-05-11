@@ -1494,8 +1494,8 @@
     .sticky-bar {
       position: fixed;
       bottom: 30px;
-      left: 24%;
-      right: 12px;
+      left: 26%;
+      right: 10px;
       z-index: 9999;
       width: auto;
       max-width: 480px;
@@ -1552,8 +1552,12 @@
 
     body { padding-bottom: 88px; }
 
+    @media (max-width: 768px) {
+      .sticky-bar-call, .sticky-bar-agendar { display: none !important; }
+      .sticky-bar { left: 16px !important; } /* allow pill to be full-ish width or centered */
+    }
     @media (max-width: 400px) {
-      .sticky-bar { gap: 2px; padding: 4px; width: auto; left: 16%; right: 4px; bottom: 24px; }
+      .sticky-bar { gap: 2px; padding: 4px; width: auto; left: 20%; right: 2px; bottom: 24px; }
       .sticky-bar a { height: 38px; font-size: 8px; gap: 2px; }
       .sticky-bar a svg { width: 12px; height: 12px; }
       body { padding-bottom: 76px; }
@@ -1998,10 +2002,7 @@
         <li><a href="contactos.html" class="nav-link">CONTACTOS</a></li>
       </ul>
 
-      <!-- Desktop CTA -->
-      <a href="https://wa.me/351927394029" target="_blank" class="btn btn-red nav-cta">
-        <i data-lucide="message-circle"></i> WHATSAPP
-      </a>
+      
 
       <!-- Hamburger -->
       <button class="hamburger" id="hamburger" aria-label="Abrir menu">
@@ -2022,10 +2023,7 @@
       <li><a href="sobre.html" class="mobile-nav-link">SOBRE N&Oacute;S</a></li>
       <li><a href="contactos.html" class="mobile-nav-link">CONTACTOS</a></li>
     </ul>
-    <div class="mobile-gold-line"></div>
-    <a href="https://wa.me/351927394029" target="_blank" class="btn btn-green">
-      <i data-lucide="message-circle"></i> WHATSAPP
-    </a>
+    
   </div>
 
     <!-- HERO -->
@@ -2053,7 +2051,7 @@
         </p>
 
         <div class="hero-buttons reveal reveal-delay-2">
-          <a href="https://wa.me/351927394029" target="_blank" class="btn btn-red">
+          <a href="https://wa.me/351927394029" target="_blank" class="btn btn-green">
             <i data-lucide="message-circle"></i>
             PEDIR OR&Ccedil;AMENTO
           </a>
@@ -2064,12 +2062,7 @@
         </div>
       </div>
 
-      <!-- Scroll hint -->
-      <div class="hero-scroll-hint">
-        <span>Scroll</span>
-        <i data-lucide="chevron-down"></i>
-      </div>
-    </section>
+      </section>
 
     <!-- TRUST BAR -->
     <div class="trust-bar">
@@ -2319,8 +2312,8 @@
             <li style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text-primary);"><i data-lucide="check-circle" style="width:16px;height:16px;color:var(--accent-gold);flex-shrink:0;"></i> Cobertura em toda a Ilha da Madeira</li>
           </ul>
           <div style="display:flex;gap:16px;flex-wrap:wrap;">
-            <a href="consultoria.html" class="btn btn-gold"><i data-lucide="clipboard-list"></i> SABER MAIS</a>
-            <a href="https://wa.me/351927394029" target="_blank" class="btn btn-outline"><i data-lucide="message-circle"></i> CONTACTAR</a>
+            <a href="consultoria.html" class="btn btn-outline"><i data-lucide="clipboard-list"></i> SABER MAIS</a>
+            <a href="https://wa.me/351927394029" target="_blank" class="btn btn-green"><i data-lucide="message-circle"></i> CONTACTAR</a>
           </div>
         </div>
         <div class="reveal reveal-delay-2" style="background:var(--bg-card);border:1px solid rgba(200,154,58,0.15);padding:48px;position:relative;">
@@ -2352,9 +2345,9 @@
           </div>
           <div class="cta-banner-btns reveal reveal-delay-3">
             <a href="https://wa.me/351927394029" target="_blank" class="btn btn-green"><i data-lucide="message-circle"></i> WhatsApp &mdash; Resposta em 2h</a>
-              <a href="consultoria.html" class="btn" style="background:#4A9EE8;color:#fff;"><i data-lucide="calendar"></i> Agendar Visita</a>
+              <a href="consultoria.html" class="btn" ><i data-lucide="calendar"></i> Agendar Visita</a>
               <a href="obras.html" class="btn btn-outline"><i data-lucide="images"></i> Ver Obras</a>
-          </div>
+          `n            <a href="https://wa.me/351927394029" target="_blank" class="btn btn-green"><i data-lucide="message-circle"></i> WhatsApp &mdash; Resposta em 2h</a>`n            <a href="consultoria.html" class="btn btn-outline"><i data-lucide="calendar"></i> Agendar Visita</a>`n          </div>
         </div>
       </div>
     </section>
