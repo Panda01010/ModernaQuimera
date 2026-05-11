@@ -1426,46 +1426,6 @@
     }
   
         /* ============================================================
-       STICKY BOTTOM BAR
-    ============================================================ */
-    .sticky-bar {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      z-index: 9999;
-      display: flex;
-      height: 58px;
-      box-shadow: 0 -4px 24px rgba(0,0,0,0.55);
-      border-top: 1px solid rgba(255,255,255,0.07);
-    }
-    .sticky-bar a {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: #fff;
-      transition: filter 0.2s ease;
-    }
-    .sticky-bar a:hover  { filter: brightness(1.15); }
-    .sticky-bar a:active { opacity: 0.85; }
-    .sticky-bar a svg    { width: 18px; height: 18px; flex-shrink: 0; }
-    .sticky-bar-call     { background: #1D6FC4; }
-    .sticky-bar-whatsapp { background: #25D366; border-left: 1px solid rgba(255,255,255,0.1); border-right: 1px solid rgba(255,255,255,0.1); }
-    .sticky-bar-agendar  { background: #1C1C1A; border-top: 2px solid #C89A3A; }
-    body { padding-bottom: 58px; }
-    @media (max-width: 420px) {
-      .sticky-bar { height: 54px; }
-      .sticky-bar a span { font-size: 10px; }
-      body { padding-bottom: 54px; }
-    }
-  
-    /* ============================================================
        MOBILE OVERFLOW FIX
     ============================================================ */
     html, body {
@@ -1512,10 +1472,7 @@
       /* CTA banner buttons stack */
       .cta-banner-btns { flex-direction: column; align-items: center; }
       .cta-banner h2 { font-size: 28px !important; }
-      /* Sticky bar text smaller */
-      .sticky-bar a { font-size: 11px; gap: 5px; }
-      .sticky-bar a svg { width: 16px; height: 16px; }
-    }
+      }
   
     /* Push LeadConnector chat widget above sticky bar */
     #LeadConnector_chat_widget,
@@ -1524,8 +1481,80 @@
     [class*="chat-widget"],
     iframe[src*="leadconnectorhq"],
     div[data-widget-id] {
-      bottom: 66px !important;
+      bottom: 90px !important;
     }
+  
+    /* ============================================================
+       FLOATING PILL BOTTOM BAR
+    ============================================================ */
+    .sticky-bar {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      width: calc(100% - 32px);
+      max-width: 480px;
+      background: #111111;
+      border-radius: 999px;
+      padding: 5px;
+      display: flex;
+      gap: 5px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.75), 0 0 0 1px rgba(200,154,58,0.18);
+    }
+
+    .sticky-bar a {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      height: 46px;
+      border-radius: 999px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: filter 0.2s ease, transform 0.15s ease;
+      white-space: nowrap;
+    }
+    .sticky-bar a:active { transform: scale(0.96); }
+    .sticky-bar a svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    /* LIGAR — solid gold pill */
+    .sticky-bar-call {
+      background: #C89A3A;
+      color: #111111;
+    }
+    .sticky-bar-call:hover { filter: brightness(1.12); }
+
+    /* WHATSAPP — outline style */
+    .sticky-bar-whatsapp {
+      background: transparent;
+      color: #C89A3A;
+      border: 1px solid rgba(200,154,58,0.35);
+    }
+    .sticky-bar-whatsapp:hover { background: rgba(200,154,58,0.1); }
+
+    /* AGENDAR — outline style */
+    .sticky-bar-agendar {
+      background: transparent;
+      color: #C89A3A;
+      border: 1px solid rgba(200,154,58,0.35);
+    }
+    .sticky-bar-agendar:hover { background: rgba(200,154,58,0.1); }
+
+    body { padding-bottom: 88px; }
+
+    @media (max-width: 400px) {
+      .sticky-bar { gap: 4px; padding: 4px; width: calc(100% - 16px); bottom: 14px; }
+      .sticky-bar a { height: 42px; font-size: 10px; gap: 5px; }
+      .sticky-bar a svg { width: 14px; height: 14px; }
+      body { padding-bottom: 76px; }
+    }
+
   </style>
 
   <style>
@@ -1940,7 +1969,7 @@
     [class*="chat-widget"],
     iframe[src*="leadconnectorhq"],
     div[data-widget-id] {
-      bottom: 66px !important;
+      bottom: 90px !important;
     }
   </style>
 </head>
@@ -2332,8 +2361,8 @@
         all.forEach(function(el) {
           if (el.classList.contains('sticky-bar')) return;
           var style = window.getComputedStyle(el);
-          if (style.position === 'fixed' && (style.bottom === '0px' || parseInt(style.bottom) < 58)) {
-            el.style.setProperty('bottom', '66px', 'important');
+          if (style.position === 'fixed' && (style.bottom === '0px' || parseInt(style.bottom) < 88)) {
+            el.style.setProperty('bottom', '90px', 'important');
           }
         });
         if (attempts > 20) clearInterval(interval);
