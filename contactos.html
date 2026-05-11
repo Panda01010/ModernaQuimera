@@ -1557,8 +1557,8 @@
     body { padding-bottom: 88px; }
 
     @media (max-width: 400px) {
-      .sticky-bar { gap: 4px; padding: 4px; width: auto; left: 24%; right: 6px; bottom: 24px; }
-      .sticky-bar a { height: 38px; font-size: 8.5px; gap: 4px; }
+      .sticky-bar { gap: 2px; padding: 4px; width: auto; left: 16%; right: 4px; bottom: 24px; }
+      .sticky-bar a { height: 38px; font-size: 8px; gap: 2px; }
       .sticky-bar a svg { width: 12px; height: 12px; }
       body { padding-bottom: 76px; }
     }
@@ -1979,6 +1979,8 @@
     div[data-widget-id] {
       bottom: 90px !important;
     }
+  
+    @media (max-width: 768px) { .responsive-grid-3 { grid-template-columns: 1fr !important; } }
   </style>
 </head>
 <body><nav class="navbar" id="navbar">
@@ -2045,7 +2047,7 @@
   <!-- CONTACT OPTIONS -->
   <section style="background:var(--bg-secondary);padding:60px 0;border-bottom:1px solid rgba(200,154,58,0.12);">
     <div class="container">
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;" class="responsive-grid-3">
         <div style="background:var(--bg-card);border:1px solid rgba(200,154,58,0.15);padding:36px;text-align:center;border-top:3px solid #4A9EE8;">
           <div style="width:52px;height:52px;background:rgba(74,158,232,0.1);border:1px solid rgba(74,158,232,0.3);border-radius:0;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;color:#4A9EE8;"><i data-lucide="phone" style="width:22px;height:22px;"></i></div>
           <h3 style="font-family:var(--font-title);font-size:22px;color:var(--text-primary);margin-bottom:8px;">Ligar Agora</h3>
@@ -2085,7 +2087,7 @@
     <!-- Contact Cards -->
     <section class="section-pad-sm bg-primary">
       <div class="container">
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;" class="reveal">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;" class="reveal responsive-grid-3">
           <div class="stat-item" style="text-align:left;padding:36px;">
             <div class="stat-icon" style="margin:0 0 16px;"><i data-lucide="phone"></i></div>
             <div style="font-size:10px;font-weight:700;letter-spacing:0.2em;color:var(--accent-gold);margin-bottom:8px;text-transform:uppercase;">Telefone</div>

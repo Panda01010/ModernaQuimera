@@ -1567,8 +1567,8 @@
     body { padding-bottom: 88px; }
 
     @media (max-width: 400px) {
-      .sticky-bar { gap: 4px; padding: 4px; width: auto; left: 24%; right: 6px; bottom: 24px; }
-      .sticky-bar a { height: 38px; font-size: 8.5px; gap: 4px; }
+      .sticky-bar { gap: 2px; padding: 4px; width: auto; left: 16%; right: 4px; bottom: 24px; }
+      .sticky-bar a { height: 38px; font-size: 8px; gap: 2px; }
       .sticky-bar a svg { width: 12px; height: 12px; }
       body { padding-bottom: 76px; }
     }
@@ -1989,6 +1989,8 @@
     div[data-widget-id] {
       bottom: 90px !important;
     }
+  
+    @media (max-width: 768px) { .responsive-grid-3 { grid-template-columns: 1fr !important; } }
   </style>
 </head>
 <body><nav class="navbar" id="navbar">
