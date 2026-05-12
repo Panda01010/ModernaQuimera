@@ -2339,6 +2339,43 @@
         if (e.key === 'Escape') closeLb();
       });
 
+      // Fechar ao fazer scroll ou swipe vertical (mobile)
+      var touchStartY = 0;
+      var lbEl = document.getElementById('proj-lightbox');
+      
+      lbEl.addEventListener('touchstart', function(e) {
+        touchStartY = e.touches[0].clientY;
+      }, {passive: true});
+      
+      lbEl.addEventListener('touchmove', function(e) {
+        if (!lbEl.classList.contains('active')) return;
+        // Evita fechar se o scroll for horizontal na area das thumbnails
+        var target = e.target;
+        if (target && target.closest('#lb-thumbs')) return;
+        
+        // Se o swipe vertical for maior que 60px, fecha o lightbox
+        if (Math.abs(e.touches[0].clientY - touchStartY) > 60) {
+          closeLb();
+        }
+      }, {passive: true});
+
+      lbEl.addEventListener('wheel', function(e) {
+        if (!lbEl.classList.contains('active')) return;
+        var target = e.target;
+        if (target && target.closest('#lb-thumbs')) return;
+        
+        // Se fizer scroll com rato > 30, fecha
+        if (Math.abs(e.deltaY) > 30) {
+          closeLb();
+        }
+      }, {passive: true});
+
+      window.addEventListener('scroll', function() {
+        if (lbEl.classList.contains('active')) {
+          closeLb();
+        }
+      }, {passive: true});
+
       function closeLb() {
         document.getElementById('proj-lightbox').classList.remove('active');
         document.body.style.overflow = '';
