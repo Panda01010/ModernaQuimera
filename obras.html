@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html><!-- Last deployed: 2026-05-10 20:22:31 --><html lang="pt-PT"><head>
+<!DOCTYPE html><!-- Last deployed: 2026-05-10 20:22:31 --><html lang="pt-PT"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Veja o nosso portfolio de obras e remodelacoes realizadas na Ilha da Madeira. Fotos reais de capoto, pinturas, impermeabilizacao e muito mais &mdash; antes e depois.">
@@ -1527,14 +1527,14 @@
     .sticky-bar a:active { transform: scale(0.96); }
     .sticky-bar a svg { width: 14px; height: 14px; flex-shrink: 0; }
 
-    /* LIGAR — solid gold pill */
+    /* LIGAR â€” solid gold pill */
     .sticky-bar-call {
       background: #C89A3A;
       color: #111111;
     }
     .sticky-bar-call:hover { filter: brightness(1.12); }
 
-    /* WHATSAPP — outline style */
+    /* WHATSAPP â€” outline style */
     .sticky-bar-whatsapp {
       background: transparent;
       color: #C89A3A;
@@ -1542,7 +1542,7 @@
     }
     .sticky-bar-whatsapp:hover { background: rgba(200,154,58,0.1); }
 
-    /* AGENDAR — outline style */
+    /* AGENDAR â€” outline style */
     .sticky-bar-agendar {
       background: transparent;
       color: #C89A3A;
@@ -2038,127 +2038,312 @@
       </div>
     </section>
 
+    <!-- REAL PROJECT GALLERY -->
+    <style>
+      /* â”€â”€â”€ PROJECT GALLERY GRID â”€â”€â”€ */
+      .proj-gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        margin-bottom: 60px;
+      }
+      @media (max-width: 960px) { .proj-gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+      @media (max-width: 560px) { .proj-gallery-grid { grid-template-columns: 1fr; } }
+
+      .proj-card {
+        background: var(--bg-card);
+        border: 1px solid rgba(200,154,58,0.12);
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+      }
+      .proj-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(200,154,58,0.3);
+      }
+      .proj-cover {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s ease;
+      }
+      .proj-card:hover .proj-cover { transform: scale(1.04); }
+
+      .proj-cover-wrap { overflow: hidden; position: relative; }
+      .proj-photo-count {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(13,13,11,0.8);
+        border: 1px solid rgba(200,154,58,0.4);
+        color: var(--accent-gold);
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        padding: 4px 10px;
+      }
+      .proj-info {
+        padding: 20px 20px 22px;
+      }
+      .proj-tag {
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--accent-gold);
+        margin-bottom: 8px;
+      }
+      .proj-name {
+        font-family: var(--font-title);
+        font-size: 20px;
+        color: var(--text-primary);
+        letter-spacing: 0.04em;
+        margin-bottom: 6px;
+      }
+      .proj-loc {
+        font-size: 11px;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .proj-open-hint {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(200,154,58,0.9), transparent);
+        color: var(--bg-primary);
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-align: center;
+        padding: 14px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        text-transform: uppercase;
+      }
+      .proj-card:hover .proj-open-hint { opacity: 1; }
+
+      /* â”€â”€â”€ LIGHTBOX â”€â”€â”€ */
+      #proj-lightbox {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 100000;
+        background: rgba(10,10,10,0.96);
+        backdrop-filter: blur(12px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      #proj-lightbox.active { display: flex; }
+      .lb-header {
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        padding: 20px 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(to bottom, rgba(10,10,10,0.8), transparent);
+      }
+      .lb-title { font-family: var(--font-title); font-size: 22px; color: var(--accent-gold); letter-spacing: 0.06em; }
+      .lb-close {
+        background: none; border: 1px solid rgba(200,154,58,0.4);
+        color: var(--text-primary); width: 40px; height: 40px;
+        font-size: 22px; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        transition: 0.2s;
+      }
+      .lb-close:hover { background: var(--accent-gold); color: var(--bg-primary); border-color: var(--accent-gold); }
+
+      .lb-main-img {
+        max-width: 88vw;
+        max-height: 72vh;
+        object-fit: contain;
+        border: 1px solid rgba(200,154,58,0.2);
+      }
+      .lb-nav {
+        position: absolute;
+        top: 50%; transform: translateY(-50%);
+        background: rgba(200,154,58,0.15);
+        border: 1px solid rgba(200,154,58,0.3);
+        color: var(--text-primary);
+        width: 48px; height: 48px;
+        font-size: 22px;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        transition: 0.2s;
+      }
+      .lb-nav:hover { background: var(--accent-gold); color: var(--bg-primary); }
+      .lb-prev { left: 20px; }
+      .lb-next { right: 20px; }
+      .lb-counter {
+        position: absolute;
+        bottom: 20px;
+        font-size: 11px;
+        letter-spacing: 0.15em;
+        color: var(--text-muted);
+      }
+      .lb-thumbs {
+        position: absolute;
+        bottom: 44px;
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        max-width: 90vw;
+        padding: 0 10px;
+      }
+      .lb-thumb {
+        width: 56px; height: 42px;
+        object-fit: cover;
+        border: 2px solid transparent;
+        cursor: pointer;
+        flex-shrink: 0;
+        opacity: 0.5;
+        transition: 0.2s;
+      }
+      .lb-thumb.active, .lb-thumb:hover { border-color: var(--accent-gold); opacity: 1; }
+    </style>
+
+    <!-- Project Lightbox Modal -->
+    <div id="proj-lightbox" role="dialog" aria-modal="true">
+      <div class="lb-header">
+        <div class="lb-title" id="lb-proj-title"></div>
+        <button class="lb-close" id="lb-close" aria-label="Fechar">&times;</button>
+      </div>
+      <img class="lb-main-img" id="lb-main-img" src="" alt="">
+      <button class="lb-nav lb-prev" id="lb-prev" aria-label="Anterior">&#8592;</button>
+      <button class="lb-nav lb-next" id="lb-next" aria-label="Proximo">&#8594;</button>
+      <div class="lb-thumbs" id="lb-thumbs"></div>
+      <div class="lb-counter" id="lb-counter"></div>
+    </div>
+
     <section class="section-pad bg-primary">
       <div class="container">
-        <div class="ba-grid" style="grid-template-columns:repeat(3,1fr);gap:20px;">
+        <div class="proj-gallery-grid">
 
-          <div class="ba-card reveal">
-            <div class="ba-images">
-              <div class="ba-img">
-                <img src="assets/1.before.jpeg" alt="Antes" loading="lazy">
-                <span class="ba-badge">ANTES</span>
-              </div>
-              <div class="ba-img">
-                <img src="assets/1.after.jpeg" alt="Depois" loading="lazy">
-                <span class="ba-badge depois">DEPOIS</span>
-              </div>
-            </div>
-            <div class="ba-info">
-              <div class="ba-tag">Capoto ETICS</div>
-              <div class="ba-title">MORADIA &mdash; FUNCHAL</div>
-              <div style="font-size:11px;color:var(--text-muted);margin-top:6px;"><i data-lucide="map-pin" style="width:12px;height:12px;"></i> Madeira</div>
-            </div>
+          <div class="proj-card reveal" onclick="openProject('Capoto ETICS - Hotel Santo',['assets/Capoto_Etics_Hotel_Santo/Project_Hotel_Santo_01.jpeg','assets/Capoto_Etics_Hotel_Santo/Project_Hotel_Santo_02.jpeg'])">
+            <div class="proj-cover-wrap"><img class="proj-cover" src="assets/Capoto_Etics_Hotel_Santo/Project_Hotel_Santo_01.jpeg" loading="lazy"><div class="proj-photo-count">2 FOTOS</div></div>
+            <div class="proj-info"><div class="proj-tag">Capoto ETICS</div><div class="proj-name">HOTEL SANTO</div></div>
+            <div class="proj-open-hint">VER TODAS AS FOTOS &rarr;</div>
           </div>
 
-          <div class="ba-card reveal reveal-delay-1">
-            <div class="ba-images">
-              <div class="ba-img">
-                <img src="assets/2.before.jpeg" alt="Antes" loading="lazy">
-                <span class="ba-badge">ANTES</span>
-              </div>
-              <div class="ba-img">
-                <img src="assets/2.after.jpeg" alt="Depois" loading="lazy">
-                <span class="ba-badge depois">DEPOIS</span>
-              </div>
-            </div>
-            <div class="ba-info">
-              <div class="ba-tag">Reboco Projetado</div>
-              <div class="ba-title">EDIF&Iacute;CIO &mdash; C&Acirc;MARA DE LOBOS</div>
-              <div style="font-size:11px;color:var(--text-muted);margin-top:6px;"><i data-lucide="map-pin" style="width:12px;height:12px;"></i> Madeira</div>
-            </div>
+          <div class="proj-card reveal reveal-delay-1" onclick="openProject('Capoto ETICS - Porto Santo',['assets/Capoto_Etics_Porto_Santo/Project_Terracotta_Roof_Insulation_01.jpeg','assets/Capoto_Etics_Porto_Santo/Project_Terracotta_Roof_Insulation_02.jpeg','assets/Capoto_Etics_Porto_Santo/Project_Terracotta_Roof_Insulation_03.jpeg','assets/Capoto_Etics_Porto_Santo/Project_Terracotta_Roof_Insulation_04.jpeg','assets/Capoto_Etics_Porto_Santo/Project_Terracotta_Roof_Insulation_05.jpeg'])">
+            <div class="proj-cover-wrap"><img class="proj-cover" src="assets/Capoto_Etics_Porto_Santo/Project_Terracotta_Roof_Insulation_01.jpeg" loading="lazy"><div class="proj-photo-count">5 FOTOS</div></div>
+            <div class="proj-info"><div class="proj-tag">Capoto ETICS</div><div class="proj-name">PORTO SANTO</div></div>
+            <div class="proj-open-hint">VER TODAS AS FOTOS &rarr;</div>
           </div>
 
-          <div class="ba-card reveal reveal-delay-2">
-            <div class="ba-images">
-              <div class="ba-img">
-                <img src="assets/3.before.jpeg" alt="Antes" loading="lazy">
-                <span class="ba-badge">ANTES</span>
-              </div>
-              <div class="ba-img">
-                <img src="assets/3.after.jpeg" alt="Depois" loading="lazy">
-                <span class="ba-badge depois">DEPOIS</span>
-              </div>
-            </div>
-            <div class="ba-info">
-              <div class="ba-tag">IMPERMEABILIZA&Ccedil;&Atilde;O</div>
-              <div class="ba-title">COBERTURA &mdash; MACHICO</div>
-              <div style="font-size:11px;color:var(--text-muted);margin-top:6px;"><i data-lucide="map-pin" style="width:12px;height:12px;"></i> Madeira</div>
-            </div>
+          <div class="proj-card reveal reveal-delay-2" onclick="openProject('Obra Diversos',['assets/Obra_Diversos/Project_Hillside_House_01.jpeg','assets/Obra_Diversos/Project_Hillside_House_02.jpeg','assets/Obra_Diversos/Project_Hillside_House_03.jpeg','assets/Obra_Diversos/Project_Hillside_House_04.jpeg','assets/Obra_Diversos/Project_Hillside_House_05.jpeg'])">
+            <div class="proj-cover-wrap"><img class="proj-cover" src="assets/Obra_Diversos/Project_Hillside_House_01.jpeg" loading="lazy"><div class="proj-photo-count">5 FOTOS</div></div>
+            <div class="proj-info"><div class="proj-tag">Obra</div><div class="proj-name">OBRA DIVERSOS</div></div>
+            <div class="proj-open-hint">VER TODAS AS FOTOS &rarr;</div>
           </div>
 
-          <div class="ba-card reveal">
-            <div class="ba-images">
-              <div class="ba-img">
-                <img src="assets/4.before.jpeg" alt="Antes" loading="lazy">
-                <span class="ba-badge">ANTES</span>
-              </div>
-              <div class="ba-img">
-                <img src="assets/4.after.jpeg" alt="Depois" loading="lazy">
-                <span class="ba-badge depois">DEPOIS</span>
-              </div>
-            </div>
-            <div class="ba-info">
-              <div class="ba-tag">Pinturas Exterior</div>
-              <div class="ba-title">VIVENDA &mdash; SANTA CRUZ</div>
-              <div style="font-size:11px;color:var(--text-muted);margin-top:6px;"><i data-lucide="map-pin" style="width:12px;height:12px;"></i> Madeira</div>
-            </div>
+          <div class="proj-card reveal" onclick="openProject('Obra Eiras',['assets/Obra_Eiras/Project_Infinity_Pool_01.jpeg','assets/Obra_Eiras/Project_Infinity_Pool_02.jpeg'])">
+            <div class="proj-cover-wrap"><img class="proj-cover" src="assets/Obra_Eiras/Project_Infinity_Pool_01.jpeg" loading="lazy"><div class="proj-photo-count">2 FOTOS</div></div>
+            <div class="proj-info"><div class="proj-tag">Recuperacao &bull; Argamassa &bull; Impermeabilizacao</div><div class="proj-name">OBRA EIRAS</div></div>
+            <div class="proj-open-hint">VER TODAS AS FOTOS &rarr;</div>
           </div>
 
-          <div class="ba-card reveal reveal-delay-1">
-            <div class="ba-images">
-              <div class="ba-img">
-                <img src="assets/5.before.jpeg" alt="Antes" loading="lazy">
-                <span class="ba-badge">ANTES</span>
-              </div>
-              <div class="ba-img">
-                <img src="assets/5.after.jpeg" alt="Depois" loading="lazy">
-                <span class="ba-badge depois">DEPOIS</span>
-              </div>
-            </div>
-            <div class="ba-info">
-              <div class="ba-tag">Pladur e LSF</div>
-              <div class="ba-title">INTERIOR &mdash; PORTO SANTO</div>
-              <div style="font-size:11px;color:var(--text-muted);margin-top:6px;"><i data-lucide="map-pin" style="width:12px;height:12px;"></i> Porto Santo</div>
-            </div>
+          <div class="proj-card reveal reveal-delay-1" onclick="openProject('Obra LSF',['assets/Obra_LSF/Project_Interior_Framing_01.jpeg','assets/Obra_LSF/Project_Interior_Framing_02.jpeg','assets/Obra_LSF/Project_Interior_Framing_03.jpeg','assets/Obra_LSF/Project_Interior_Framing_04.jpeg'])">
+            <div class="proj-cover-wrap"><img class="proj-cover" src="assets/Obra_Paul_Do_Mar/Project_Stone_Base_House_03.jpeg" loading="lazy"><div class="proj-photo-count">4 FOTOS</div></div>
+            <div class="proj-info"><div class="proj-tag">LSF &bull; Argamassa &bull; Revestimento Acrilico</div><div class="proj-name">OBRA LSF</div></div>
+            <div class="proj-open-hint">VER TODAS AS FOTOS &rarr;</div>
           </div>
 
-          <div class="ba-card reveal reveal-delay-2">
-            <div class="ba-images">
-              <div class="ba-img">
-                <img src="assets/6.before.jpeg" alt="Antes" loading="lazy">
-                <span class="ba-badge">ANTES</span>
-              </div>
-              <div class="ba-img">
-                <img src="assets/6.after.jpeg" alt="Depois" loading="lazy">
-                <span class="ba-badge depois">DEPOIS</span>
-              </div>
-            </div>
-            <div class="ba-info">
-              <div class="ba-tag">Tratamento de Fissuras</div>
-              <div class="ba-title">FACHADA &mdash; RIBEIR&Atilde;O BRAVA</div>
-              <div style="font-size:11px;color:var(--text-muted);margin-top:6px;"><i data-lucide="map-pin" style="width:12px;height:12px;"></i> Madeira</div>
-            </div>
+          <div class="proj-card reveal reveal-delay-2" onclick="openProject('Obra Paul do Mar',['assets/Obra_Paul_Do_Mar/Project_Stone_Base_House_01.jpeg','assets/Obra_Paul_Do_Mar/Project_Stone_Base_House_02.jpeg','assets/Obra_Paul_Do_Mar/Project_Stone_Base_House_03.jpeg'])">
+            <div class="proj-cover-wrap"><img class="proj-cover" src="assets/Obra_Paul_Do_Mar/Project_Stone_Base_House_01.jpeg" loading="lazy"><div class="proj-photo-count">3 FOTOS</div></div>
+            <div class="proj-info"><div class="proj-tag">Capoto &bull; Revestimento Acrilico</div><div class="proj-name">PAUL DO MAR</div></div>
+            <div class="proj-open-hint">VER TODAS AS FOTOS &rarr;</div>
+          </div>
+
+          <div class="proj-card reveal" onclick="openProject('Reboco Termico - Camara de Lobos',['assets/Reboco_Termico_Camara_De_Lobos/Project_Modern_Angular_House_01.jpeg','assets/Reboco_Termico_Camara_De_Lobos/Project_Modern_Angular_House_02.jpeg','assets/Reboco_Termico_Camara_De_Lobos/Project_Modern_Angular_House_03.jpeg','assets/Reboco_Termico_Camara_De_Lobos/Project_Modern_Angular_House_04.jpeg'])">
+            <div class="proj-cover-wrap"><img class="proj-cover" src="assets/Reboco_Termico_Camara_De_Lobos/Project_Modern_Angular_House_03.jpeg" loading="lazy"><div class="proj-photo-count">4 FOTOS</div></div>
+            <div class="proj-info"><div class="proj-tag">Reboco Termico Projectado</div><div class="proj-name">CAMARA DE LOBOS</div></div>
+            <div class="proj-open-hint">VER TODAS AS FOTOS &rarr;</div>
+          </div>
+
+          <div class="proj-card reveal reveal-delay-1" onclick="openProject('Reboco Termico - Porto Santo',['assets/Reboco_Termico_Porto_Santo/Project_Long_Building_Plaster_03.jpeg','assets/Reboco_Termico_Porto_Santo/Project_Long_Building_Plaster_05.jpeg'])">
+            <div class="proj-cover-wrap"><img class="proj-cover" src="assets/Reboco_Termico_Porto_Santo/Project_Long_Building_Plaster_03.jpeg" loading="lazy"><div class="proj-photo-count">2 FOTOS</div></div>
+            <div class="proj-info"><div class="proj-tag">Reboco Termico Projectado</div><div class="proj-name">PORTO SANTO</div></div>
+            <div class="proj-open-hint">VER TODAS AS FOTOS &rarr;</div>
+          </div>
+
+          <div class="proj-card reveal reveal-delay-2" onclick="openProject('Edificio - Reboco Projectado',['assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_06.jpeg','assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_07.jpeg','assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_09.jpeg','assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_12.jpeg','assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_13.jpeg','assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_14.jpeg','assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_15.jpeg','assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_16.jpeg','assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_17.jpeg'])">
+            <div class="proj-cover-wrap"><img class="proj-cover" src="assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_09.jpeg" loading="lazy"><div class="proj-photo-count">9 FOTOS</div></div>
+            <div class="proj-info"><div class="proj-tag">Reboco Projectado</div><div class="proj-name">EDIFICIO</div></div>
+            <div class="proj-open-hint">VER TODAS AS FOTOS &rarr;</div>
           </div>
 
         </div>
 
-        <div style="text-align:center;margin-top:60px;" class="reveal">
+        <div style="text-align:center;margin-top:40px;" class="reveal">
           <a href="https://wa.me/351927394029" target="_blank" class="btn btn-red">
             <i data-lucide="message-circle"></i> PEDIR OR&Ccedil;AMENTO
           </a>
         </div>
       </div>
     </section>
+
+    <script>
+      // â”€â”€â”€ Lightbox logic â”€â”€â”€
+      var lbImages = [];
+      var lbIndex = 0;
+
+      function openProject(title, images) {
+        lbImages = images;
+        lbIndex = 0;
+        document.getElementById('lb-proj-title').textContent = title;
+        document.getElementById('proj-lightbox').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        renderLb();
+      }
+
+      function renderLb() {
+        var img = document.getElementById('lb-main-img');
+        img.src = lbImages[lbIndex];
+        document.getElementById('lb-counter').textContent = (lbIndex + 1) + ' / ' + lbImages.length;
+        var thumbsEl = document.getElementById('lb-thumbs');
+        thumbsEl.innerHTML = '';
+        lbImages.forEach(function(src, i) {
+          var t = document.createElement('img');
+          t.className = 'lb-thumb' + (i === lbIndex ? ' active' : '');
+          t.src = src;
+          t.onclick = function() { lbIndex = i; renderLb(); };
+          thumbsEl.appendChild(t);
+        });
+      }
+
+      document.getElementById('lb-close').onclick = closeLb;
+      document.getElementById('proj-lightbox').onclick = function(e) {
+        if (e.target === this) closeLb();
+      };
+      document.getElementById('lb-prev').onclick = function(e) {
+        e.stopPropagation();
+        lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length;
+        renderLb();
+      };
+      document.getElementById('lb-next').onclick = function(e) {
+        e.stopPropagation();
+        lbIndex = (lbIndex + 1) % lbImages.length;
+        renderLb();
+      };
+      document.addEventListener('keydown', function(e) {
+        if (!document.getElementById('proj-lightbox').classList.contains('active')) return;
+        if (e.key === 'ArrowRight') { lbIndex = (lbIndex + 1) % lbImages.length; renderLb(); }
+        if (e.key === 'ArrowLeft')  { lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length; renderLb(); }
+        if (e.key === 'Escape') closeLb();
+      });
+
+      function closeLb() {
+        document.getElementById('proj-lightbox').classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    </script>
 
   <footer class="footer" id="footer">
     <div class="container">
@@ -2325,7 +2510,7 @@
       var attempts = 0;
       var interval = setInterval(function() {
         attempts++;
-        /* LeadConnector injects a div/iframe near </body> — target all fixed bottom elements that aren't our sticky bar */
+        /* LeadConnector injects a div/iframe near </body> â€” target all fixed bottom elements that aren't our sticky bar */
         var all = document.querySelectorAll('body > div, body > iframe');
         all.forEach(function(el) {
           if (el.classList.contains('sticky-bar')) return;
@@ -2339,3 +2524,4 @@
     })();
   </script>
 </body></html>
+
