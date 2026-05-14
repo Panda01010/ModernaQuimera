@@ -764,7 +764,7 @@ async function handleFile(event, filePath, safeId){
     reader.onload=e=>{document.getElementById(`prev_${safeId}`).src=e.target.result};
     reader.readAsDataURL(file);
 
-    showToast('success','✅ Foto atualizada! O site vai atualizar em ~60 segundos.');
+    showToast('success','✅ Foto guardada! Podes trocar a próxima já. Site público atualiza em ~60s.');
   } catch(e){
     hideProgress();
     showToast('error','❌ Erro: '+(e.message||'Verifica o token e a ligação.'));
