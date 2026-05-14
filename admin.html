@@ -202,6 +202,22 @@ a{text-decoration:none;color:inherit}
       <div id="proj-accordion"></div>
     </div>
 
+    <!-- EDITAR TÍTULOS -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon">✏️</div>
+        <div>
+          <h2>Editar Títulos dos Projetos</h2>
+          <p>Muda o nome de qualquer projeto na página Obras. Clica Guardar quando acabares.</p>
+        </div>
+      </div>
+      <div id="titles-list"></div>
+      <div style="margin-top:20px">
+        <button class="change-btn" id="save-titles-btn" onclick="saveTitles()" style="max-width:220px;background:#c89a3a;color:#0a0a0a;border:none">💾 Guardar Títulos no Site</button>
+        <div id="titles-status" style="font-size:12px;margin-top:10px;color:#7a7a72"></div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -327,6 +343,7 @@ function initApp(){
   buildGrid('grid-main', IMAGES_MAIN);
   buildGrid('grid-portfolio', IMAGES_PORTFOLIO);
   buildProjects();
+  buildTitles();
 }
 
 function buildGrid(containerId, images){
@@ -389,6 +406,87 @@ function buildProjects(){
     wrap.appendChild(body);
     acc.appendChild(wrap);
   });
+}
+
+// ─── TITLES ──────────────────────────────────────────────
+// Current titles as they exist in obras.html (must match exactly)
+const PROJ_TITLES = [
+  'Capoto ETICS - Hotel Santo',
+  'Capoto ETICS - Porto Santo',
+  'Obra Diversos',
+  'Obra Eiras',
+  'Obra LSF',
+  'Obra Paul do Mar',
+  'Reboco Termico - Camara de Lobos',
+  'Reboco Termico - Porto Santo',
+  'Edificio - Reboco Projectado'
+];
+
+function buildTitles(){
+  const list = document.getElementById('titles-list');
+  list.innerHTML = '';
+  PROJ_TITLES.forEach((title, i) => {
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:12px;background:#161614;border:1px solid rgba(200,154,58,0.15);border-radius:10px;padding:14px 16px;margin-bottom:10px';
+    row.innerHTML = `
+      <div style="font-size:11px;font-weight:700;color:#c89a3a;min-width:20px;text-align:center">${i+1}</div>
+      <input id="title_${i}" value="${title}" style="flex:1;background:#0d0d0b;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 14px;color:#f0ede8;font-size:13px;font-weight:600" onfocus="this.style.borderColor='#c89a3a'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+      <div style="font-size:10px;color:#7a7a72;white-space:nowrap">obras.html</div>
+    `;
+    list.appendChild(row);
+  });
+}
+
+async function saveTitles(){
+  const token = getToken();
+  if(!token){ showToast('error','⚠️ Guarda o token do GitHub primeiro!'); return; }
+
+  const newTitles = PROJ_TITLES.map((_, i) => document.getElementById('title_'+i).value.trim());
+  const changed = PROJ_TITLES.map((old, i) => ({ old, new: newTitles[i] })).filter(p => p.old !== p.new);
+  if(!changed.length){ showToast('error','Nenhum título foi alterado.'); return; }
+
+  const statusEl = document.getElementById('titles-status');
+  statusEl.textContent = '🔄 A carregar obras.html do GitHub...';
+  document.getElementById('save-titles-btn').disabled = true;
+
+  try {
+    // Fetch current obras.html
+    const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/obras.html?ref=${GITHUB_BRANCH}`,{
+      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'}
+    });
+    if(!res.ok) throw new Error('Erro ao ler obras.html');
+    const data = await res.json();
+    const sha = data.sha;
+    let content = atob(data.content.replace(/\n/g,''));
+
+    // Replace each changed title
+    changed.forEach(p => {
+      // replace in openProject('Title',...) calls
+      content = content.split(`openProject('${p.old}'`).join(`openProject('${p.new}'`);
+      // replace in proj-name divs (uppercase version)
+      content = content.split(p.old.toUpperCase()).join(p.new.toUpperCase());
+    });
+
+    statusEl.textContent = '🔄 A guardar no GitHub...';
+
+    const b64 = btoa(unescape(encodeURIComponent(content)));
+    const upRes = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/obras.html`,{
+      method:'PUT',
+      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body: JSON.stringify({ message:'Admin: update project titles', content: b64, sha, branch: GITHUB_BRANCH })
+    });
+    if(!upRes.ok){ const e=await upRes.json(); throw new Error(e.message||'Erro'); }
+
+    // Update local PROJ_TITLES so save works again without reload
+    newTitles.forEach((t,i) => PROJ_TITLES[i] = t);
+
+    statusEl.textContent = '';
+    showToast('success', `✅ ${changed.length} título(s) atualizados! Site atualiza em ~60s.`);
+  } catch(e){
+    statusEl.textContent = '';
+    showToast('error', '❌ ' + (e.message||'Erro desconhecido'));
+  }
+  document.getElementById('save-titles-btn').disabled = false;
 }
 
 function refreshButtons(){
