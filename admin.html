@@ -236,50 +236,50 @@ const IMAGES_PORTFOLIO = [
 ];
 
 const PROJECTS = [
-  { name:'Capoto ETICS - Hotel Santo', photos:[
+  { name:'Capoto ETICS - Hotel Santo', tag:'Capoto ETICS', photos:[
     'assets/Capoto_Etics_Hotel_Santo/Project_Hotel_Santo_01.jpeg',
     'assets/Capoto_Etics_Hotel_Santo/Project_Hotel_Santo_02.jpeg'
   ]},
-  { name:'Capoto ETICS - Porto Santo', photos:[
+  { name:'Capoto ETICS - Porto Santo', tag:'Capoto ETICS', photos:[
     'assets/Capoto_Etics_Porto_Santo/Project_Terracotta_Roof_Insulation_01.jpeg',
     'assets/Capoto_Etics_Porto_Santo/Project_Terracotta_Roof_Insulation_02.jpeg',
     'assets/Capoto_Etics_Porto_Santo/Project_Terracotta_Roof_Insulation_03.jpeg',
     'assets/Capoto_Etics_Porto_Santo/Project_Terracotta_Roof_Insulation_04.jpeg',
     'assets/Capoto_Etics_Porto_Santo/Project_Terracotta_Roof_Insulation_05.jpeg'
   ]},
-  { name:'Obra Diversos', photos:[
+  { name:'Obra Diversos', tag:'Obra', photos:[
     'assets/Obra_Diversos/Project_Hillside_House_01.jpeg',
     'assets/Obra_Diversos/Project_Hillside_House_02.jpeg',
     'assets/Obra_Diversos/Project_Hillside_House_03.jpeg',
     'assets/Obra_Diversos/Project_Hillside_House_04.jpeg',
     'assets/Obra_Diversos/Project_Hillside_House_05.jpeg'
   ]},
-  { name:'Test', photos:[
+  { name:'Test', tag:'Recuperacao &bull; Argamassa &bull; Impermeabilizacao', photos:[
     'assets/Obra_Eiras/Project_Infinity_Pool_01.jpeg',
     'assets/Obra_Eiras/Project_Infinity_Pool_02.jpeg'
   ]},
-  { name:'Obra LSF', photos:[
+  { name:'Obra LSF', tag:'LSF &bull; Argamassa &bull; Revestimento Acrilico', photos:[
     'assets/Obra_LSF/Project_Interior_Framing_01.jpeg',
     'assets/Obra_LSF/Project_Interior_Framing_02.jpeg',
     'assets/Obra_LSF/Project_Interior_Framing_03.jpeg',
     'assets/Obra_LSF/Project_Interior_Framing_04.jpeg'
   ]},
-  { name:'Obra Paul do Mar', photos:[
+  { name:'Obra Paul do Mar', tag:'Capoto &bull; Revestimento Acrilico', photos:[
     'assets/Obra_Paul_Do_Mar/Project_Stone_Base_House_01.jpeg',
     'assets/Obra_Paul_Do_Mar/Project_Stone_Base_House_02.jpeg',
     'assets/Obra_Paul_Do_Mar/Project_Stone_Base_House_03.jpeg'
   ]},
-  { name:'Reboco Termico - Camara de Lobos', photos:[
+  { name:'Reboco Termico - Camara de Lobos', tag:'Reboco Termico Projectado', photos:[
     'assets/Reboco_Termico_Camara_De_Lobos/Project_Modern_Angular_House_01.jpeg',
     'assets/Reboco_Termico_Camara_De_Lobos/Project_Modern_Angular_House_02.jpeg',
     'assets/Reboco_Termico_Camara_De_Lobos/Project_Modern_Angular_House_03.jpeg',
     'assets/Reboco_Termico_Camara_De_Lobos/Project_Modern_Angular_House_04.jpeg'
   ]},
-  { name:'Reboco Termico - Porto Santo', photos:[
+  { name:'Reboco Termico - Porto Santo', tag:'Reboco Termico Projectado', photos:[
     'assets/Reboco_Termico_Porto_Santo/Project_Long_Building_Plaster_03.jpeg',
     'assets/Reboco_Termico_Porto_Santo/Project_Long_Building_Plaster_05.jpeg'
   ]},
-  { name:'Edificio - Reboco Projectado', photos:[
+  { name:'Edificio - Reboco Projectado', tag:'Reboco Projectado', photos:[
     'assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_06.jpeg',
     'assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_07.jpeg',
     'assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_09.jpeg',
@@ -438,7 +438,38 @@ function buildProjects(){
         </div>`;
       grid.appendChild(card);
     });
+    // ── TAG EDITOR (inside body) ──
+    const tagRow=document.createElement('div');
+    tagRow.style.cssText='display:flex;align-items:center;gap:8px;margin-top:14px;padding:12px;background:#0d0d0b;border-radius:10px;border:1px solid rgba(200,154,58,0.15)';
+    const tagLabel=document.createElement('span');
+    tagLabel.textContent='🏷️ Subtítulo:';
+    tagLabel.style.cssText='font-size:11px;font-weight:700;color:#c89a3a;white-space:nowrap';
+    const tagInput=document.createElement('input');
+    tagInput.value=proj.tag||'';
+    tagInput.placeholder='ex: Capoto • Reboco';
+    tagInput.style.cssText='flex:1;background:#161614;border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:7px 10px;color:#f0ede8;font-size:12px;outline:none';
+    tagInput.onfocus=()=>tagInput.style.borderColor='#c89a3a';
+    tagInput.onblur=()=>tagInput.style.borderColor='rgba(255,255,255,0.1)';
+    const tagSaveBtn=document.createElement('button');
+    tagSaveBtn.textContent='💾';
+    tagSaveBtn.title='Guardar subtítulo';
+    tagSaveBtn.style.cssText='background:#c89a3a;color:#0a0a0a;font-weight:700;font-size:13px;padding:7px 10px;border:none;border-radius:6px;cursor:pointer';
+    tagSaveBtn.onclick=async(e)=>{
+      e.stopPropagation();
+      const newTag=tagInput.value.trim();
+      if(newTag===proj.tag){showToast('error','Subtítulo não foi alterado.');return;}
+      tagSaveBtn.textContent='🔄';
+      tagSaveBtn.disabled=true;
+      const ok=await saveOneTag(proj.name, proj.tag, newTag);
+      if(ok){ proj.tag=newTag; }
+      tagSaveBtn.textContent='💾';
+      tagSaveBtn.disabled=false;
+    };
+    tagRow.appendChild(tagLabel);
+    tagRow.appendChild(tagInput);
+    tagRow.appendChild(tagSaveBtn);
     body.appendChild(grid);
+    body.appendChild(tagRow);
 
     // ── EVENTS ──
     // toggle body on header click (not edit btn)
@@ -511,6 +542,40 @@ async function saveOneTitle(oldName, newName){
     if(!upRes.ok){ const e=await upRes.json(); throw new Error(e.message); }
     hideProgress();
     showToast('success',`✅ "${newName}" guardado! Site atualiza em ~60s.`);
+    return true;
+  } catch(e){
+    hideProgress();
+    showToast('error','❌ ' + (e.message||'Erro desconhecido'));
+    return false;
+  }
+}
+
+async function saveOneTag(projName, oldTag, newTag){
+  const token = getToken();
+  if(!token){ showToast('error','⚠️ Token em falta!'); return false; }
+  showProgress('🔄 A atualizar subtítulo no site...');
+  try {
+    const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/obras.html?ref=${GITHUB_BRANCH}`,{
+      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'}
+    });
+    if(!res.ok) throw new Error('Erro ao ler obras.html: ' + res.status);
+    const data = await res.json();
+    let content = atob(data.content.replace(/\n/g,''));
+    // Replace tag specifically for this project using proj-name as anchor
+    const displayName = projName.toUpperCase();
+    const oldPattern = `proj-tag">${oldTag}</div><div class="proj-name">${displayName}`;
+    const newPattern = `proj-tag">${newTag}</div><div class="proj-name">${displayName}`;
+    if(!content.includes(oldPattern)) throw new Error(`Padrão não encontrado para "${projName}". Tenta recarregar a página.`);
+    content = content.split(oldPattern).join(newPattern);
+    const b64 = btoa(unescape(encodeURIComponent(content)));
+    const upRes = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/obras.html`,{
+      method:'PUT',
+      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body: JSON.stringify({ message:`Admin: update tag for "${projName}"`, content: b64, sha: data.sha, branch: GITHUB_BRANCH })
+    });
+    if(!upRes.ok){ const e=await upRes.json(); throw new Error(e.message); }
+    hideProgress();
+    showToast('success',`✅ Subtítulo atualizado! Site atualiza em ~60s.`);
     return true;
   } catch(e){
     hideProgress();
