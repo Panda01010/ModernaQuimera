@@ -293,7 +293,7 @@ const IMAGES_PORTFOLIO = [
 ];
 
 const PROJECTS = [
-  { name:'Capoto ETICS - Hotel Santo', tag:'Capoto ETICS', photos:[
+  { name:'Hotel Santo', tag:'Capoto ETICS', photos:[
     'assets/Capoto_Etics_Hotel_Santo/Project_Hotel_Santo_01.jpeg',
     'assets/Capoto_Etics_Hotel_Santo/Project_Hotel_Santo_02.jpeg'
   ]},
@@ -311,7 +311,7 @@ const PROJECTS = [
     'assets/Obra_Diversos/Project_Hillside_House_04.jpeg',
     'assets/Obra_Diversos/Project_Hillside_House_05.jpeg'
   ]},
-  { name:'Test', tag:'Recuperacao &bull; Argamassa &bull; Impermeabilizacao', photos:[
+  { name:'Test 2', tag:'Recuperacao &bull; Argamassa &bull; Impermeabilizacao', photos:[
     'assets/Obra_Eiras/Project_Infinity_Pool_01.jpeg',
     'assets/Obra_Eiras/Project_Infinity_Pool_02.jpeg'
   ]},
@@ -590,10 +590,26 @@ async function saveOneTitle(oldName, newName){
     if(!res.ok) throw new Error('Erro ao ler obras.html: ' + res.status);
     const data = await res.json();
     let content = atob(data.content.replace(/\n/g,''));
-    // replace in openProject() call
-    content = content.split(`openProject('${oldName}'`).join(`openProject('${newName}'`);
-    // replace uppercase display name in proj-name div
-    content = content.split(oldName.toUpperCase()).join(newName.toUpperCase());
+
+    // 1. Replace openProject() call argument
+    const oldCallStr = `openProject('${oldName}'`;
+    const newCallStr = `openProject('${newName}'`;
+    if(!content.includes(oldCallStr)) throw new Error(`Projeto "${oldName}" não encontrado. Recarrega a página.`);
+    content = content.split(oldCallStr).join(newCallStr);
+
+    // 2. Replace data-proj attributes (both on proj-card and proj-name elements)
+    const oldAttr = `data-proj="${oldName}"`;
+    const newAttr = `data-proj="${newName}"`;
+    content = content.split(oldAttr).join(newAttr);
+
+    // 3. Update the displayed proj-name text using data-proj as anchor
+    const escapedNew = newName.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    const namePattern = new RegExp(
+      '(<div class="proj-name" data-proj="' + escapedNew + '">)([^<]*)(</div>)',
+      'g'
+    );
+    content = content.replace(namePattern, '$1' + newName.toUpperCase() + '$3');
+
     const b64 = btoa(unescape(encodeURIComponent(content)));
     const upRes = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/obras.html`,{
       method:'PUT',
