@@ -638,12 +638,19 @@ async function saveOneTag(projName, oldTag, newTag){
     if(!res.ok) throw new Error('Erro ao ler obras.html: ' + res.status);
     const data = await res.json();
     let content = atob(data.content.replace(/\n/g,''));
-    // Replace tag specifically for this project using proj-name as anchor
-    const displayName = projName.toUpperCase();
-    const oldPattern = `proj-tag">${oldTag}</div><div class="proj-name">${displayName}`;
-    const newPattern = `proj-tag">${newTag}</div><div class="proj-name">${displayName}`;
-    if(!content.includes(oldPattern)) throw new Error(`Padrão não encontrado para "${projName}". Tenta recarregar a página.`);
-    content = content.split(oldPattern).join(newPattern);
+
+    // Anchor on data-proj="projName" inside proj-info, then replace the proj-tag text before it
+    // Pattern: <div class="proj-tag">OLDTAG</div><div class="proj-name" data-proj="projName">
+    const escapedName = projName.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    const tagPattern = new RegExp(
+      '(<div class="proj-tag">)([^<]*)(</div><div class="proj-name" data-proj="' + escapedName + '">)',
+      'g'
+    );
+    if(!tagPattern.test(content)) throw new Error(`Projeto "${projName}" não encontrado. Tenta recarregar a página.`);
+    // Reset lastIndex after test()
+    tagPattern.lastIndex = 0;
+    content = content.replace(tagPattern, '$1' + newTag + '$3');
+
     const b64 = btoa(unescape(encodeURIComponent(content)));
     const upRes = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/obras.html`,{
       method:'PUT',
