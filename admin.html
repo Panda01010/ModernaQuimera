@@ -190,6 +190,18 @@ a{text-decoration:none;color:inherit}
       <div class="img-grid" id="grid-portfolio"></div>
     </div>
 
+    <!-- PROJETOS PORTFOLIO -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon">🏗️</div>
+        <div>
+          <h2>Projetos do Portfolio (obras.html)</h2>
+          <p>Fotos dentro de cada projeto — clica numa foto para a trocar</p>
+        </div>
+      </div>
+      <div id="proj-accordion"></div>
+    </div>
+
   </div>
 </div>
 
@@ -221,6 +233,63 @@ const IMAGES_PORTFOLIO = [
   { file:'assets/5.after.jpeg',  label:'Obra 5 — Depois', desc:'Obra 5 — resultado final' },
   { file:'assets/6.before.jpeg', label:'Obra 6 — Antes', desc:'Obra 6 — estado inicial' },
   { file:'assets/6.after.jpeg',  label:'Obra 6 — Depois', desc:'Obra 6 — resultado final' },
+];
+
+const PROJECTS = [
+  { name:'Hotel Santo (Capoto ETICS)', photos:[
+    'assets/Capoto_Etics_Hotel_Santo/Project_Hotel_Santo_01.jpeg',
+    'assets/Capoto_Etics_Hotel_Santo/Project_Hotel_Santo_02.jpeg'
+  ]},
+  { name:'Porto Santo (Capoto ETICS)', photos:[
+    'assets/Capoto_Etics_Porto_Santo/Project_Terracotta_Roof_Insulation_01.jpeg',
+    'assets/Capoto_Etics_Porto_Santo/Project_Terracotta_Roof_Insulation_02.jpeg',
+    'assets/Capoto_Etics_Porto_Santo/Project_Terracotta_Roof_Insulation_03.jpeg',
+    'assets/Capoto_Etics_Porto_Santo/Project_Terracotta_Roof_Insulation_04.jpeg',
+    'assets/Capoto_Etics_Porto_Santo/Project_Terracotta_Roof_Insulation_05.jpeg'
+  ]},
+  { name:'Obra Diversos', photos:[
+    'assets/Obra_Diversos/Project_Hillside_House_01.jpeg',
+    'assets/Obra_Diversos/Project_Hillside_House_02.jpeg',
+    'assets/Obra_Diversos/Project_Hillside_House_03.jpeg',
+    'assets/Obra_Diversos/Project_Hillside_House_04.jpeg',
+    'assets/Obra_Diversos/Project_Hillside_House_05.jpeg'
+  ]},
+  { name:'Obra Eiras', photos:[
+    'assets/Obra_Eiras/Project_Infinity_Pool_01.jpeg',
+    'assets/Obra_Eiras/Project_Infinity_Pool_02.jpeg'
+  ]},
+  { name:'Obra LSF', photos:[
+    'assets/Obra_LSF/Project_Interior_Framing_01.jpeg',
+    'assets/Obra_LSF/Project_Interior_Framing_02.jpeg',
+    'assets/Obra_LSF/Project_Interior_Framing_03.jpeg',
+    'assets/Obra_LSF/Project_Interior_Framing_04.jpeg'
+  ]},
+  { name:'Paul do Mar', photos:[
+    'assets/Obra_Paul_Do_Mar/Project_Stone_Base_House_01.jpeg',
+    'assets/Obra_Paul_Do_Mar/Project_Stone_Base_House_02.jpeg',
+    'assets/Obra_Paul_Do_Mar/Project_Stone_Base_House_03.jpeg'
+  ]},
+  { name:'Câmara de Lobos (Reboco)', photos:[
+    'assets/Reboco_Termico_Camara_De_Lobos/Project_Modern_Angular_House_01.jpeg',
+    'assets/Reboco_Termico_Camara_De_Lobos/Project_Modern_Angular_House_02.jpeg',
+    'assets/Reboco_Termico_Camara_De_Lobos/Project_Modern_Angular_House_03.jpeg',
+    'assets/Reboco_Termico_Camara_De_Lobos/Project_Modern_Angular_House_04.jpeg'
+  ]},
+  { name:'Porto Santo (Reboco)', photos:[
+    'assets/Reboco_Termico_Porto_Santo/Project_Long_Building_Plaster_03.jpeg',
+    'assets/Reboco_Termico_Porto_Santo/Project_Long_Building_Plaster_05.jpeg'
+  ]},
+  { name:'Edifício — Reboco Projectado', photos:[
+    'assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_06.jpeg',
+    'assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_07.jpeg',
+    'assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_09.jpeg',
+    'assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_12.jpeg',
+    'assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_13.jpeg',
+    'assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_14.jpeg',
+    'assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_15.jpeg',
+    'assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_16.jpeg',
+    'assets/Project_Long_Building_Plaster/Project_Long_Building_Plaster_17.jpeg'
+  ]},
 ];
 
 // ─── AUTH ─────────────────────────────────────────────────
@@ -257,6 +326,7 @@ function initApp(){
   else document.getElementById('token-input').value='';
   buildGrid('grid-main', IMAGES_MAIN);
   buildGrid('grid-portfolio', IMAGES_PORTFOLIO);
+  buildProjects();
 }
 
 function buildGrid(containerId, images){
@@ -282,6 +352,42 @@ function buildGrid(containerId, images){
         </button>
       </div>`;
     c.appendChild(card);
+  });
+}
+
+function buildProjects(){
+  const acc=document.getElementById('proj-accordion');
+  acc.innerHTML='';
+  PROJECTS.forEach((proj,pi)=>{
+    const wrap=document.createElement('div');
+    wrap.style.cssText='background:#161614;border:1px solid rgba(200,154,58,0.15);border-radius:14px;margin-bottom:12px;overflow:hidden';
+    const header=document.createElement('div');
+    header.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer;user-select:none';
+    header.innerHTML=`<div style="font-weight:700;font-size:14px">📁 ${proj.name}</div><div style="font-size:12px;color:#7a7a72">${proj.photos.length} foto${proj.photos.length>1?'s':''} &nbsp;▼</div>`;
+    const body=document.createElement('div');
+    body.style.cssText='display:none;padding:0 16px 16px;';
+    const grid=document.createElement('div');
+    grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:12px';
+    proj.photos.forEach((file,fi)=>{
+      const safeId=file.replace(/[^a-z0-9]/gi,'_');
+      const num=fi+1;
+      const card=document.createElement('div');
+      card.className='img-card';
+      card.innerHTML=`
+        <img class="img-preview" id="prev_${safeId}" src="${file}?v=${Date.now()}" alt="Foto ${num}"
+          onerror="this.style.background='#1c1c1a'">
+        <div class="img-card-body">
+          <div class="img-label">Foto ${num}</div>
+          <input type="file" accept="image/*" class="file-input" id="file_${safeId}" onchange="handleFile(event,'${file}','${safeId}')">
+          <button class="change-btn" id="btn_${safeId}" onclick="document.getElementById('file_${safeId}').click()">📷 Trocar</button>
+        </div>`;
+      grid.appendChild(card);
+    });
+    body.appendChild(grid);
+    header.onclick=()=>{ const open=body.style.display==='block'; body.style.display=open?'none':'block'; header.querySelector('div:last-child').textContent=`${proj.photos.length} foto${proj.photos.length>1?'s':''} ${open?'▼':'▲'}`; };
+    wrap.appendChild(header);
+    wrap.appendChild(body);
+    acc.appendChild(wrap);
   });
 }
 
