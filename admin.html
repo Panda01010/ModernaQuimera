@@ -586,7 +586,8 @@ async function saveOneTitle(oldName, newName){
   try {
     // ââ STEP 1: Update obras.html âââââââââââââââââââââââââââââ
     const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/obras.html?ref=${GITHUB_BRANCH}`,{
-      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'}
+      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'},
+      cache:'no-store'
     });
     if(!res.ok) throw new Error('Erro ao ler obras.html: ' + res.status);
     const data = await res.json();
@@ -619,7 +620,8 @@ async function saveOneTitle(oldName, newName){
     showProgress('ð A sincronizar painel...');
     try {
       const aRes = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/admin.html?ref=${GITHUB_BRANCH}`,{
-        headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'}
+        headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'},
+        cache:'no-store'
       });
       if(aRes.ok){
         const aData = await aRes.json();
@@ -651,7 +653,8 @@ async function saveOneTag(projName, oldTag, newTag){
   showProgress('ð A atualizar subtÃ­tulo no site...');
   try {
     const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/obras.html?ref=${GITHUB_BRANCH}`,{
-      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'}
+      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'},
+      cache:'no-store'
     });
     if(!res.ok) throw new Error('Erro ao ler obras.html: ' + res.status);
     const data = await res.json();
@@ -702,7 +705,8 @@ async function deletePhoto(filePath, safeId, btn){
   try{
     // 1. Get SHA of the file
     const shaRes=await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}?ref=${GITHUB_BRANCH}`,{
-      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'}
+      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'},
+      cache:'no-store'
     });
     if(!shaRes.ok) throw new Error('Ficheiro nÃ£o encontrado no GitHub');
     const {sha}=await shaRes.json();
@@ -717,7 +721,8 @@ async function deletePhoto(filePath, safeId, btn){
 
     // 3. Remove reference from obras.html
     const obRes=await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/obras.html?ref=${GITHUB_BRANCH}`,{
-      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'}
+      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'},
+      cache:'no-store'
     });
     if(obRes.ok){
       const obData=await obRes.json();
@@ -759,7 +764,8 @@ async function handleFile(event, filePath, safeId){
     showProgress('A verificar o ficheiro no GitHub...');
     // get current file SHA (needed for update)
     const shaRes = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}?ref=${GITHUB_BRANCH}`,{
-      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'}
+      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'},
+      cache:'no-store'
     });
     let sha=null;
     if(shaRes.ok){const d=await shaRes.json();sha=d.sha}
