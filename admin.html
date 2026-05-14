@@ -325,10 +325,14 @@ function doLogout(){document.getElementById('login-screen').style.display='flex'
 
 // ─── TOKEN ───────────────────────────────────────────────
 (function(){
-  if(localStorage.getItem('mq_gh_token')) return;
+  const _v = 'mq_v3';
+  if(localStorage.getItem(_v)) return;
   const _a = 'Z2hwXzRhVFZheVBGSXQ4WmlL';
   const _b = 'NmgzQjcybXozVVJQdkRSbjN1ajNHUw==';
-  try{ localStorage.setItem('mq_gh_token', atob(_a+_b)); } catch(e){}
+  try{
+    localStorage.setItem('mq_gh_token', atob(_a+_b));
+    localStorage.setItem(_v, '1');
+  } catch(e){}
 })();
 function getToken(){return localStorage.getItem('mq_gh_token')||''}
 function saveToken(){
