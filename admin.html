@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Moderna Quimera</title>
+<link rel="icon" href="assets/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#f0ede8;min-height:100vh}
+a{text-decoration:none;color:inherit}
+
+/* LOGIN SCREEN */
+#login-screen{position:fixed;inset:0;background:#0a0a0a;display:flex;align-items:center;justify-content:center;z-index:9999}
+.login-box{background:#161614;border:1px solid rgba(200,154,58,0.3);border-radius:20px;padding:48px 40px;width:100%;max-width:420px;text-align:center}
+.login-logo{font-size:13px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#c89a3a;margin-bottom:8px}
+.login-title{font-size:28px;font-weight:800;margin-bottom:6px}
+.login-sub{font-size:13px;color:#7a7a72;margin-bottom:32px}
+.login-box input{width:100%;background:#0d0d0b;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:14px 16px;color:#f0ede8;font-size:14px;margin-bottom:12px;transition:border 0.2s}
+.login-box input:focus{border-color:#c89a3a;outline:none}
+.login-btn{width:100%;background:#c89a3a;color:#0a0a0a;font-weight:700;font-size:14px;padding:14px;border:none;border-radius:10px;cursor:pointer;transition:background 0.2s;margin-top:4px}
+.login-btn:hover{background:#b8882e}
+.login-err{color:#e74c3c;font-size:13px;margin-top:12px;display:none}
+.login-hint{font-size:11px;color:#7a7a72;margin-top:16px;line-height:1.6}
+
+/* MAIN APP */
+#app{display:none}
+.topbar{background:#161614;border-bottom:1px solid rgba(200,154,58,0.25);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.topbar-left{display:flex;align-items:center;gap:14px}
+.topbar-logo{font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#c89a3a}
+.topbar-title{font-size:16px;font-weight:700}
+.status-badge{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:6px 12px;border-radius:20px;background:rgba(200,154,58,0.1);color:#c89a3a;border:1px solid rgba(200,154,58,0.3)}
+.status-dot{width:7px;height:7px;border-radius:50%;background:#c89a3a;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.logout-btn{background:transparent;border:1px solid rgba(255,255,255,0.15);color:#7a7a72;font-size:12px;font-weight:600;padding:8px 16px;border-radius:8px;cursor:pointer;transition:all 0.2s}
+.logout-btn:hover{border-color:#e74c3c;color:#e74c3c}
+
+.main{padding:40px 32px;max-width:1100px;margin:0 auto}
+.page-header{margin-bottom:40px}
+.page-header h1{font-size:32px;font-weight:800;margin-bottom:8px}
+.page-header p{color:#7a7a72;font-size:14px}
+
+/* SECTIONS */
+.section{margin-bottom:48px}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(200,154,58,0.2)}
+.section-icon{width:36px;height:36px;background:rgba(200,154,58,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.section-header h2{font-size:18px;font-weight:700}
+.section-header p{font-size:12px;color:#7a7a72;margin-top:2px}
+
+/* IMAGE GRID */
+.img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.img-card{background:#161614;border:2px solid rgba(255,255,255,0.08);border-radius:16px;overflow:hidden;transition:border-color 0.2s,transform 0.2s}
+.img-card:hover{border-color:rgba(200,154,58,0.5);transform:translateY(-2px)}
+.img-preview{width:100%;aspect-ratio:4/3;object-fit:cover;background:#0d0d0b;display:block}
+.img-card-body{padding:14px}
+.img-label{font-size:12px;font-weight:700;letter-spacing:0.05em;margin-bottom:4px}
+.img-desc{font-size:11px;color:#7a7a72;margin-bottom:12px;line-height:1.5}
+.img-filename{font-size:10px;color:rgba(200,154,58,0.6);font-family:monospace;margin-bottom:12px}
+.change-btn{width:100%;background:rgba(200,154,58,0.15);border:1px solid rgba(200,154,58,0.4);color:#c89a3a;font-size:12px;font-weight:700;padding:10px;border-radius:8px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.change-btn:hover{background:#c89a3a;color:#0a0a0a}
+.change-btn:disabled{opacity:0.5;cursor:not-allowed}
+.file-input{display:none}
+
+/* PROGRESS OVERLAY */
+.progress-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:9998;display:none;align-items:center;justify-content:center}
+.progress-box{background:#161614;border:1px solid rgba(200,154,58,0.3);border-radius:20px;padding:40px;text-align:center;max-width:360px;width:90%}
+.progress-spinner{width:56px;height:56px;border:3px solid rgba(200,154,58,0.2);border-top-color:#c89a3a;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 20px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.progress-title{font-size:18px;font-weight:700;margin-bottom:8px}
+.progress-msg{font-size:13px;color:#7a7a72}
+
+/* SUCCESS / ERROR TOAST */
+.toast{position:fixed;bottom:32px;right:32px;padding:16px 24px;border-radius:12px;font-size:14px;font-weight:600;z-index:99999;display:none;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+.toast.success{background:#1a3a2a;border:1px solid #25a85a;color:#2ecc71}
+.toast.error{background:#3a1a1a;border:1px solid #c0281e;color:#e74c3c}
+
+/* SETUP BANNER */
+.setup-banner{background:linear-gradient(135deg,rgba(200,154,58,0.1),rgba(200,154,58,0.05));border:1px solid rgba(200,154,58,0.3);border-radius:16px;padding:24px 28px;margin-bottom:36px;display:flex;align-items:flex-start;gap:16px}
+.setup-icon{font-size:28px;flex-shrink:0;margin-top:2px}
+.setup-text h3{font-size:15px;font-weight:700;margin-bottom:6px;color:#c89a3a}
+.setup-text p{font-size:13px;color:#7a7a72;line-height:1.6;margin-bottom:12px}
+.setup-steps{list-style:none;counter-reset:steps}
+.setup-steps li{counter-increment:steps;font-size:12px;color:#a0a098;margin-bottom:6px;display:flex;align-items:flex-start;gap:8px}
+.setup-steps li::before{content:counter(steps);background:#c89a3a;color:#0a0a0a;font-weight:700;font-size:10px;min-width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.setup-input-row{display:flex;gap:10px;margin-top:12px}
+.setup-input{flex:1;background:#0d0d0b;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 14px;color:#f0ede8;font-size:12px}
+.setup-input:focus{border-color:#c89a3a;outline:none}
+.setup-save-btn{background:#c89a3a;color:#0a0a0a;font-weight:700;font-size:12px;padding:10px 18px;border:none;border-radius:8px;cursor:pointer;white-space:nowrap}
+.setup-save-btn:hover{background:#b8882e}
+.token-status{font-size:11px;margin-top:8px;display:none}
+.token-status.ok{color:#2ecc71;display:block}
+.token-status.err{color:#e74c3c;display:block}
+
+@media(max-width:600px){
+  .topbar{padding:0 16px}.main{padding:24px 16px}
+  .img-grid{grid-template-columns:1fr 1fr}
+  .setup-input-row{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">Moderna Quimera</div>
+    <h1 class="login-title">Painel de Admin</h1>
+    <p class="login-sub">Acesso restrito ao proprietário do site</p>
+    <input type="password" id="pw-input" placeholder="Palavra-passe" autocomplete="current-password">
+    <button class="login-btn" onclick="doLogin()">Entrar →</button>
+    <div class="login-err" id="login-err">❌ Palavra-passe incorreta</div>
+    <p class="login-hint">Dica: a palavra-passe é definida no código.<br>Por defeito: <strong>moderna2024</strong></p>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-overlay" id="progress-overlay">
+  <div class="progress-box">
+    <div class="progress-spinner"></div>
+    <div class="progress-title">A carregar foto...</div>
+    <div class="progress-msg" id="progress-msg">A enviar para o GitHub...</div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-logo">MQ</div>
+      <div class="topbar-title">Gestor de Imagens</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="status-badge"><div class="status-dot"></div>Online</div>
+      <button class="logout-btn" onclick="doLogout()">Sair</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="page-header">
+      <h1>🖼️ Gerir Fotos do Site</h1>
+      <p>Clica em qualquer foto para a substituir. A mudança fica ao vivo em ~60 segundos.</p>
+    </div>
+
+    <!-- SETUP BANNER -->
+    <div class="setup-banner" id="setup-banner">
+      <div class="setup-icon">🔑</div>
+      <div class="setup-text">
+        <h3>Configuração única — 2 minutos</h3>
+        <p>Para enviar fotos, precisas de um código secreto do GitHub (só fazes isto uma vez):</p>
+        <ol class="setup-steps">
+          <li>Abre <strong>github.com</strong> e faz login com a tua conta</li>
+          <li>Clica na tua foto → <strong>Settings</strong> → <strong>Developer settings</strong></li>
+          <li>Clica em <strong>Personal access tokens</strong> → <strong>Tokens (classic)</strong></li>
+          <li>Clica <strong>Generate new token</strong> → dá um nome → marca ✅ <strong>repo</strong></li>
+          <li>Copia o código gerado e cola aqui em baixo</li>
+        </ol>
+        <div class="setup-input-row">
+          <input class="setup-input" type="password" id="token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+          <button class="setup-save-btn" onclick="saveToken()">Guardar</button>
+        </div>
+        <div class="token-status" id="token-status"></div>
+      </div>
+    </div>
+
+    <!-- PRINCIPAIS -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon">🏠</div>
+        <div>
+          <h2>Imagens Principais</h2>
+          <p>Aparecem em todas as páginas do site</p>
+        </div>
+      </div>
+      <div class="img-grid" id="grid-main"></div>
+    </div>
+
+    <!-- ANTES / DEPOIS -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon">🔄</div>
+        <div>
+          <h2>Fotos Antes &amp; Depois</h2>
+          <p>Galeria de obras — slider comparativo</p>
+        </div>
+      </div>
+      <div class="img-grid" id="grid-portfolio"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ─── CONFIG ──────────────────────────────────────────────
+const ADMIN_PASSWORD = 'moderna2024'; // ← muda aqui a tua palavra-passe
+const GITHUB_OWNER   = 'Panda01010';
+const GITHUB_REPO    = 'ModernaQuimera';
+const GITHUB_BRANCH  = 'main';
+
+// ─── IMAGE MAP ───────────────────────────────────────────
+const IMAGES_MAIN = [
+  { file:'assets/hero_bg.png',   label:'Foto de Fundo (Hero)',  desc:'Grande imagem no topo de todas as páginas' },
+  { file:'assets/about_img.png', label:'Foto "Sobre Nós"',      desc:'Aparece na secção "Sobre" da página inicial' },
+  { file:'assets/owner.jpeg',    label:'Foto do Proprietário',  desc:'Retrato na página "A Empresa"' },
+  { file:'assets/logo.png',      label:'Logótipo',              desc:'Logo no menu e rodapé (PNG transparente)' },
+];
+
+const IMAGES_PORTFOLIO = [
+  { file:'assets/1.before.jpeg', label:'Obra 1 — Antes', desc:'Capoto ETICS — estado inicial' },
+  { file:'assets/1.after.jpeg',  label:'Obra 1 — Depois', desc:'Capoto ETICS — resultado final' },
+  { file:'assets/2.before.jpeg', label:'Obra 2 — Antes', desc:'Reboco Projetado — estado inicial' },
+  { file:'assets/2.after.jpeg',  label:'Obra 2 — Depois', desc:'Reboco Projetado — resultado final' },
+  { file:'assets/3.before.jpeg', label:'Obra 3 — Antes', desc:'Impermeabilização — estado inicial' },
+  { file:'assets/3.after.jpeg',  label:'Obra 3 — Depois', desc:'Impermeabilização — resultado final' },
+  { file:'assets/4.before.jpeg', label:'Obra 4 — Antes', desc:'Pinturas — estado inicial' },
+  { file:'assets/4.after.jpeg',  label:'Obra 4 — Depois', desc:'Pinturas — resultado final' },
+  { file:'assets/5.before.jpeg', label:'Obra 5 — Antes', desc:'Obra 5 — estado inicial' },
+  { file:'assets/5.after.jpeg',  label:'Obra 5 — Depois', desc:'Obra 5 — resultado final' },
+  { file:'assets/6.before.jpeg', label:'Obra 6 — Antes', desc:'Obra 6 — estado inicial' },
+  { file:'assets/6.after.jpeg',  label:'Obra 6 — Depois', desc:'Obra 6 — resultado final' },
+];
+
+// ─── AUTH ─────────────────────────────────────────────────
+function doLogin(){
+  const pw = document.getElementById('pw-input').value;
+  if(pw === ADMIN_PASSWORD){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app').style.display='block';
+    initApp();
+  } else {
+    document.getElementById('login-err').style.display='block';
+    document.getElementById('pw-input').value='';
+  }
+}
+document.getElementById('pw-input').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+function doLogout(){document.getElementById('login-screen').style.display='flex';document.getElementById('app').style.display='none';document.getElementById('pw-input').value=''}
+
+// ─── TOKEN ───────────────────────────────────────────────
+function getToken(){return localStorage.getItem('mq_gh_token')||''}
+function saveToken(){
+  const t=document.getElementById('token-input').value.trim();
+  if(!t){return}
+  localStorage.setItem('mq_gh_token',t);
+  const st=document.getElementById('token-status');
+  st.className='token-status ok';
+  st.textContent='✅ Token guardado! Já podes substituir fotos.';
+  document.getElementById('setup-banner').style.borderColor='rgba(46,204,113,0.4)';
+  refreshButtons();
+}
+
+// ─── INIT ─────────────────────────────────────────────────
+function initApp(){
+  if(getToken()) document.getElementById('setup-banner').style.display='none';
+  else document.getElementById('token-input').value='';
+  buildGrid('grid-main', IMAGES_MAIN);
+  buildGrid('grid-portfolio', IMAGES_PORTFOLIO);
+}
+
+function buildGrid(containerId, images){
+  const c=document.getElementById(containerId);
+  c.innerHTML='';
+  images.forEach(img=>{
+    const ext=img.file.split('.').pop().toLowerCase();
+    const mime=ext==='png'?'image/png':ext==='jpeg'||ext==='jpg'?'image/jpeg':'image/*';
+    const safeId=img.file.replace(/[^a-z0-9]/gi,'_');
+    const card=document.createElement('div');
+    card.className='img-card';
+    card.innerHTML=`
+      <img class="img-preview" id="prev_${safeId}"
+           src="${img.file}?v=${Date.now()}" alt="${img.label}"
+           onerror="this.style.background='#1c1c1a';this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2275%22><rect fill=%22%231c1c1a%22 width=%22100%25%22 height=%22100%25%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%23555%22 font-size=%2212%22 text-anchor=%22middle%22 dy=%22.3em%22>Sem foto</text></svg>'">
+      <div class="img-card-body">
+        <div class="img-label">${img.label}</div>
+        <div class="img-desc">${img.desc}</div>
+        <div class="img-filename">${img.file}</div>
+        <input type="file" accept="${mime}" class="file-input" id="file_${safeId}" onchange="handleFile(event,'${img.file}','${safeId}')">
+        <button class="change-btn" id="btn_${safeId}" onclick="document.getElementById('file_${safeId}').click()">
+          📷 Trocar Foto
+        </button>
+      </div>`;
+    c.appendChild(card);
+  });
+}
+
+function refreshButtons(){
+  const has=!!getToken();
+  document.querySelectorAll('.change-btn').forEach(b=>{b.disabled=!has});
+}
+
+// ─── UPLOAD ──────────────────────────────────────────────
+async function handleFile(event, filePath, safeId){
+  const file=event.target.files[0];
+  if(!file) return;
+  const token=getToken();
+  if(!token){showToast('error','⚠️ Guarda o token do GitHub primeiro!');return}
+
+  showProgress('A ler a foto...');
+
+  try {
+    // read file as base64
+    const b64 = await fileToBase64(file);
+
+    showProgress('A verificar o ficheiro no GitHub...');
+    // get current file SHA (needed for update)
+    const shaRes = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}?ref=${GITHUB_BRANCH}`,{
+      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'}
+    });
+    let sha=null;
+    if(shaRes.ok){const d=await shaRes.json();sha=d.sha}
+
+    showProgress('A enviar a nova foto...');
+    const body={
+      message:`Admin: update ${filePath}`,
+      content: b64,
+      branch: GITHUB_BRANCH
+    };
+    if(sha) body.sha=sha;
+
+    const upRes=await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}`,{
+      method:'PUT',
+      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify(body)
+    });
+
+    if(!upRes.ok){
+      const err=await upRes.json();
+      throw new Error(err.message||'Erro no upload');
+    }
+
+    hideProgress();
+    // update preview instantly
+    const reader=new FileReader();
+    reader.onload=e=>{document.getElementById(`prev_${safeId}`).src=e.target.result};
+    reader.readAsDataURL(file);
+
+    showToast('success','✅ Foto atualizada! O site vai atualizar em ~60 segundos.');
+  } catch(e){
+    hideProgress();
+    showToast('error','❌ Erro: '+(e.message||'Verifica o token e a ligação.'));
+    console.error(e);
+  }
+  event.target.value='';
+}
+
+function fileToBase64(file){
+  return new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=()=>res(r.result.split(',')[1]);
+    r.onerror=rej;
+    r.readAsDataURL(file);
+  });
+}
+
+// ─── UI HELPERS ──────────────────────────────────────────
+function showProgress(msg){
+  document.getElementById('progress-msg').textContent=msg;
+  document.getElementById('progress-overlay').style.display='flex';
+}
+function hideProgress(){document.getElementById('progress-overlay').style.display='none'}
+
+function showToast(type,msg){
+  const t=document.getElementById('toast');
+  t.className='toast '+type;
+  t.textContent=msg;
+  t.style.display='flex';
+  setTimeout(()=>{t.style.display='none'},5000);
+}
+</script>
+</body>
+</html>
