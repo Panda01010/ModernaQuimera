@@ -540,6 +540,21 @@ function buildProjects(){
       body.style.display=open?'none':'block';
       renameRow.style.display='none';
       countEl.textContent=`${proj.photos.length} foto${proj.photos.length>1?'s':''} ${open?'\u25bc':'\u25b2'}`;
+      // When opening: fetch live subtitle from GitHub so the field always shows the current value
+      if(!open){
+        tagInput.placeholder='A carregar...';
+        fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/obras.html?ref=${GITHUB_BRANCH}`,{
+          headers:{'Authorization':`token ${getToken()}`,'Accept':'application/vnd.github.v3+json'},
+          cache:'no-store'
+        }).then(r=>r.ok?r.json():null).then(d=>{
+          if(!d) return;
+          const raw = atob(d.content.replace(/\n/g,''));
+          const esc = proj.name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+          const m = raw.match(new RegExp('<div class="proj-tag">([^<]*)</div><div class="proj-name" data-proj="'+esc+'">'));
+          if(m){ tagInput.value=m[1]; proj.tag=m[1]; }
+          tagInput.placeholder='ex: Capoto • Reboco';
+        }).catch(()=>{ tagInput.placeholder='ex: Capoto • Reboco'; });
+      }
     };
 
     // open rename on edit btn click
