@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin â Moderna Quimera</title>
+<title>Admin — Moderna Quimera</title>
 <link rel="icon" href="assets/favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -106,11 +106,11 @@ a{text-decoration:none;color:inherit}
   <div class="login-box">
     <div class="login-logo">Moderna Quimera</div>
     <h1 class="login-title">Painel de Admin</h1>
-    <p class="login-sub">Acesso restrito ao proprietÃ¡rio do site</p>
+    <p class="login-sub">Acesso restrito ao proprietário do site</p>
     <input type="password" id="pw-input" placeholder="Palavra-passe" autocomplete="current-password">
-    <button class="login-btn" onclick="doLogin()">Entrar â</button>
-    <div class="login-err" id="login-err">â Palavra-passe incorreta</div>
-    <p class="login-hint">Dica: a palavra-passe Ã© definida no cÃ³digo.<br>Por defeito: <strong>moderna2024</strong></p>
+    <button class="login-btn" onclick="doLogin()">Entrar →</button>
+    <div class="login-err" id="login-err">❌ Palavra-passe incorreta</div>
+    <p class="login-hint">Dica: a palavra-passe é definida no código.<br>Por defeito: <strong>moderna2024</strong></p>
   </div>
 </div>
 
@@ -141,62 +141,62 @@ a{text-decoration:none;color:inherit}
 
   <div class="main">
     <div class="page-header">
-      <h1>ð¼ï¸ Gerir Fotos do Site</h1>
-      <p>Clica em qualquer foto para a substituir. A mudanÃ§a fica ao vivo em ~60 segundos.</p>
+      <h1>🖼️ Gerir Fotos do Site</h1>
+      <p>Clica em qualquer foto para a substituir. A mudança fica ao vivo em ~60 segundos.</p>
     </div>
 
     <!-- TUTORIAL -->
     <div style="background:linear-gradient(135deg,rgba(200,154,58,0.08),rgba(200,154,58,0.03));border:1px solid rgba(200,154,58,0.25);border-radius:18px;padding:24px;margin-bottom:24px">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
-        <div style="font-size:22px">ð</div>
+        <div style="font-size:22px">📖</div>
         <div>
-          <h2 style="margin:0;font-size:16px;color:#c89a3a">Como usar o painel â Guia RÃ¡pido</h2>
-          <p style="margin:4px 0 0;font-size:12px;color:#7a7a72">Funciona no telemÃ³vel e no computador</p>
+          <h2 style="margin:0;font-size:16px;color:#c89a3a">Como usar o painel — Guia Rápido</h2>
+          <p style="margin:4px 0 0;font-size:12px;color:#7a7a72">Funciona no telemóvel e no computador</p>
         </div>
-        <button onclick="this.closest('div[style]').querySelector('.tut-body').style.display=this.closest('div[style]').querySelector('.tut-body').style.display==='none'?'block':'none';this.textContent=this.textContent==='â¼ Ver guia'?'â² Esconder':'â¼ Ver guia'" style="margin-left:auto;background:rgba(200,154,58,0.15);border:1px solid rgba(200,154,58,0.3);color:#c89a3a;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:12px;font-weight:700;white-space:nowrap">â¼ Ver guia</button>
+        <button onclick="this.closest('div[style]').querySelector('.tut-body').style.display=this.closest('div[style]').querySelector('.tut-body').style.display==='none'?'block':'none';this.textContent=this.textContent==='▼ Ver guia'?'▲ Esconder':'▼ Ver guia'" style="margin-left:auto;background:rgba(200,154,58,0.15);border:1px solid rgba(200,154,58,0.3);color:#c89a3a;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:12px;font-weight:700;white-space:nowrap">▼ Ver guia</button>
       </div>
       <div class="tut-body" style="display:none">
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px">
 
           <div style="background:#0d0d0b;border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.06)">
-            <div style="font-size:28px;margin-bottom:8px">1ï¸â£</div>
+            <div style="font-size:28px;margin-bottom:8px">1️⃣</div>
             <div style="font-weight:700;font-size:13px;margin-bottom:6px;color:#f0ede8">Entrar no painel</div>
-            <div style="font-size:12px;color:#9a9a92;line-height:1.6">Abre o link do painel no teu telemÃ³vel.<br>Escreve a palavra-passe e clica <strong style="color:#c89a3a">Entrar</strong>.</div>
+            <div style="font-size:12px;color:#9a9a92;line-height:1.6">Abre o link do painel no teu telemóvel.<br>Escreve a palavra-passe e clica <strong style="color:#c89a3a">Entrar</strong>.</div>
           </div>
 
           <div style="background:#0d0d0b;border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.06)">
-            <div style="font-size:28px;margin-bottom:8px">ð·</div>
+            <div style="font-size:28px;margin-bottom:8px">📷</div>
             <div style="font-weight:700;font-size:13px;margin-bottom:6px;color:#f0ede8">Trocar uma foto</div>
-            <div style="font-size:12px;color:#9a9a92;line-height:1.6">Desce atÃ© ao projeto.<br>Toca em <strong style="color:#c89a3a">ð· Trocar</strong> na foto que queres mudar.<br>Escolhe a nova foto da galeria do telemÃ³vel.<br>Aguarda a confirmaÃ§Ã£o â</div>
+            <div style="font-size:12px;color:#9a9a92;line-height:1.6">Desce até ao projeto.<br>Toca em <strong style="color:#c89a3a">📷 Trocar</strong> na foto que queres mudar.<br>Escolhe a nova foto da galeria do telemóvel.<br>Aguarda a confirmação ✅</div>
           </div>
 
           <div style="background:#0d0d0b;border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.06)">
-            <div style="font-size:28px;margin-bottom:8px">âï¸</div>
+            <div style="font-size:28px;margin-bottom:8px">✏️</div>
             <div style="font-weight:700;font-size:13px;margin-bottom:6px;color:#f0ede8">Mudar o nome do projeto</div>
-            <div style="font-size:12px;color:#9a9a92;line-height:1.6">Encontra o projeto na lista.<br>Toca no botÃ£o <strong style="color:#c89a3a">âï¸</strong> ao lado do nome.<br>Escreve o novo nome.<br>Toca em <strong style="color:#c89a3a">ð¾ Guardar</strong>.</div>
+            <div style="font-size:12px;color:#9a9a92;line-height:1.6">Encontra o projeto na lista.<br>Toca no botão <strong style="color:#c89a3a">✏️</strong> ao lado do nome.<br>Escreve o novo nome.<br>Toca em <strong style="color:#c89a3a">💾 Guardar</strong>.</div>
           </div>
 
           <div style="background:#0d0d0b;border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.06)">
-            <div style="font-size:28px;margin-bottom:8px">ð·ï¸</div>
-            <div style="font-weight:700;font-size:13px;margin-bottom:6px;color:#f0ede8">Mudar o subtÃ­tulo</div>
-            <div style="font-size:12px;color:#9a9a92;line-height:1.6">Abre o projeto (toca no nome).<br>No fundo aparece <strong style="color:#c89a3a">ð·ï¸ SubtÃ­tulo</strong>.<br>Edita o texto e toca <strong style="color:#c89a3a">ð¾</strong>.</div>
+            <div style="font-size:28px;margin-bottom:8px">🏷️</div>
+            <div style="font-weight:700;font-size:13px;margin-bottom:6px;color:#f0ede8">Mudar o subtítulo</div>
+            <div style="font-size:12px;color:#9a9a92;line-height:1.6">Abre o projeto (toca no nome).<br>No fundo aparece <strong style="color:#c89a3a">🏷️ Subtítulo</strong>.<br>Edita o texto e toca <strong style="color:#c89a3a">💾</strong>.</div>
           </div>
 
           <div style="background:#0d0d0b;border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.06)">
-            <div style="font-size:28px;margin-bottom:8px">ðï¸</div>
+            <div style="font-size:28px;margin-bottom:8px">🗑️</div>
             <div style="font-weight:700;font-size:13px;margin-bottom:6px;color:#f0ede8">Apagar uma foto</div>
-            <div style="font-size:12px;color:#9a9a92;line-height:1.6">Abre o projeto.<br>Toca em <strong style="color:#e74c3c">ðï¸</strong> na foto a apagar.<br>Confirma na janela que aparece.<br>â ï¸ Esta aÃ§Ã£o nÃ£o pode ser desfeita.</div>
+            <div style="font-size:12px;color:#9a9a92;line-height:1.6">Abre o projeto.<br>Toca em <strong style="color:#e74c3c">🗑️</strong> na foto a apagar.<br>Confirma na janela que aparece.<br>⚠️ Esta ação não pode ser desfeita.</div>
           </div>
 
           <div style="background:#0d0d0b;border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.06)">
-            <div style="font-size:28px;margin-bottom:8px">â±ï¸</div>
+            <div style="font-size:28px;margin-bottom:8px">⏱️</div>
             <div style="font-weight:700;font-size:13px;margin-bottom:6px;color:#f0ede8">Quando aparece no site?</div>
-            <div style="font-size:12px;color:#9a9a92;line-height:1.6">ApÃ³s qualquer alteraÃ§Ã£o o site atualiza automaticamente em <strong style="color:#c89a3a">~60 segundos</strong>.<br>NÃ£o precisas de fazer mais nada!</div>
+            <div style="font-size:12px;color:#9a9a92;line-height:1.6">Após qualquer alteração o site atualiza automaticamente em <strong style="color:#c89a3a">~60 segundos</strong>.<br>Não precisas de fazer mais nada!</div>
           </div>
 
         </div>
         <div style="background:rgba(200,154,58,0.08);border-radius:10px;padding:12px 16px;font-size:12px;color:#9a9a92;border-left:3px solid #c89a3a">
-          ð¡ <strong style="color:#c89a3a">Dica:</strong> Guarda o link do painel nos favoritos do telemÃ³vel para acesso rÃ¡pido. A palavra-passe fica guardada no browser â sÃ³ tens de a introduzir uma vez.
+          💡 <strong style="color:#c89a3a">Dica:</strong> Guarda o link do painel nos favoritos do telemóvel para acesso rápido. A palavra-passe fica guardada no browser — só tens de a introduzir uma vez.
         </div>
       </div>
     </div>
@@ -204,16 +204,16 @@ a{text-decoration:none;color:inherit}
     <!-- SETUP BANNER -->
 
     <div class="setup-banner" id="setup-banner">
-      <div class="setup-icon">ð</div>
+      <div class="setup-icon">🔑</div>
       <div class="setup-text">
-        <h3>ConfiguraÃ§Ã£o Ãºnica â 2 minutos</h3>
-        <p>Para enviar fotos, precisas de um cÃ³digo secreto do GitHub (sÃ³ fazes isto uma vez):</p>
+        <h3>Configuração única — 2 minutos</h3>
+        <p>Para enviar fotos, precisas de um código secreto do GitHub (só fazes isto uma vez):</p>
         <ol class="setup-steps">
           <li>Abre <strong>github.com</strong> e faz login com a tua conta</li>
-          <li>Clica na tua foto â <strong>Settings</strong> â <strong>Developer settings</strong></li>
-          <li>Clica em <strong>Personal access tokens</strong> â <strong>Tokens (classic)</strong></li>
-          <li>Clica <strong>Generate new token</strong> â dÃ¡ um nome â marca â <strong>repo</strong></li>
-          <li>Copia o cÃ³digo gerado e cola aqui em baixo</li>
+          <li>Clica na tua foto → <strong>Settings</strong> → <strong>Developer settings</strong></li>
+          <li>Clica em <strong>Personal access tokens</strong> → <strong>Tokens (classic)</strong></li>
+          <li>Clica <strong>Generate new token</strong> → dá um nome → marca ✅ <strong>repo</strong></li>
+          <li>Copia o código gerado e cola aqui em baixo</li>
         </ol>
         <div class="setup-input-row">
           <input class="setup-input" type="password" id="token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
@@ -226,10 +226,10 @@ a{text-decoration:none;color:inherit}
     <!-- PRINCIPAIS -->
     <div class="section">
       <div class="section-header">
-        <div class="section-icon">ð </div>
+        <div class="section-icon">🏠</div>
         <div>
           <h2>Imagens Principais</h2>
-          <p>Aparecem em todas as pÃ¡ginas do site</p>
+          <p>Aparecem em todas as páginas do site</p>
         </div>
       </div>
       <div class="img-grid" id="grid-main"></div>
@@ -238,10 +238,10 @@ a{text-decoration:none;color:inherit}
     <!-- ANTES / DEPOIS -->
     <div class="section">
       <div class="section-header">
-        <div class="section-icon">ð</div>
+        <div class="section-icon">🔄</div>
         <div>
           <h2>Fotos Antes &amp; Depois</h2>
-          <p>Galeria de obras â slider comparativo</p>
+          <p>Galeria de obras — slider comparativo</p>
         </div>
       </div>
       <div class="img-grid" id="grid-portfolio"></div>
@@ -250,10 +250,10 @@ a{text-decoration:none;color:inherit}
     <!-- PROJETOS PORTFOLIO -->
     <div class="section">
       <div class="section-header">
-        <div class="section-icon">ðï¸</div>
+        <div class="section-icon">🏗️</div>
         <div>
           <h2>Projetos do Portfolio (obras.html)</h2>
-          <p>Fotos dentro de cada projeto â clica numa foto para a trocar</p>
+          <p>Fotos dentro de cada projeto — clica numa foto para a trocar</p>
         </div>
       </div>
       <div id="proj-accordion"></div>
@@ -263,37 +263,37 @@ a{text-decoration:none;color:inherit}
 </div>
 
 <script>
-// âââ CONFIG ââââââââââââââââââââââââââââââââââââââââââââââ
-const ADMIN_PASSWORD = 'moderna2024'; // â muda aqui a tua palavra-passe
+// ─── CONFIG ──────────────────────────────────────────────
+const ADMIN_PASSWORD = 'moderna2024'; // ← muda aqui a tua palavra-passe
 const GITHUB_OWNER   = 'Panda01010';
 const GITHUB_REPO    = 'ModernaQuimera';
 const GITHUB_BRANCH  = 'main';
 
-// âââ IMAGE MAP âââââââââââââââââââââââââââââââââââââââââââ
+// ─── IMAGE MAP ───────────────────────────────────────────
 const IMAGES_MAIN = [
-  { file:'assets/hero_bg.png',   label:'Foto de Fundo (Hero)',  desc:'Grande imagem no topo de todas as pÃ¡ginas' },
-  { file:'assets/about_img.png', label:'Foto "Sobre NÃ³s"',      desc:'Aparece na secÃ§Ã£o "Sobre" da pÃ¡gina inicial' },
-  { file:'assets/owner.jpeg',    label:'Foto do ProprietÃ¡rio',  desc:'Retrato na pÃ¡gina "A Empresa"' },
-  { file:'assets/logo.png',      label:'LogÃ³tipo',              desc:'Logo no menu e rodapÃ© (PNG transparente)' },
+  { file:'assets/hero_bg.png',   label:'Foto de Fundo (Hero)',  desc:'Grande imagem no topo de todas as páginas' },
+  { file:'assets/about_img.png', label:'Foto "Sobre Nós"',      desc:'Aparece na secção "Sobre" da página inicial' },
+  { file:'assets/owner.jpeg',    label:'Foto do Proprietário',  desc:'Retrato na página "A Empresa"' },
+  { file:'assets/logo.png',      label:'Logótipo',              desc:'Logo no menu e rodapé (PNG transparente)' },
 ];
 
 const IMAGES_PORTFOLIO = [
-  { file:'assets/1.before.jpeg', label:'Obra 1 â Antes', desc:'Capoto ETICS â estado inicial' },
-  { file:'assets/1.after.jpeg',  label:'Obra 1 â Depois', desc:'Capoto ETICS â resultado final' },
-  { file:'assets/2.before.jpeg', label:'Obra 2 â Antes', desc:'Reboco Projetado â estado inicial' },
-  { file:'assets/2.after.jpeg',  label:'Obra 2 â Depois', desc:'Reboco Projetado â resultado final' },
-  { file:'assets/3.before.jpeg', label:'Obra 3 â Antes', desc:'ImpermeabilizaÃ§Ã£o â estado inicial' },
-  { file:'assets/3.after.jpeg',  label:'Obra 3 â Depois', desc:'ImpermeabilizaÃ§Ã£o â resultado final' },
-  { file:'assets/4.before.jpeg', label:'Obra 4 â Antes', desc:'Pinturas â estado inicial' },
-  { file:'assets/4.after.jpeg',  label:'Obra 4 â Depois', desc:'Pinturas â resultado final' },
-  { file:'assets/5.before.jpeg', label:'Obra 5 â Antes', desc:'Obra 5 â estado inicial' },
-  { file:'assets/5.after.jpeg',  label:'Obra 5 â Depois', desc:'Obra 5 â resultado final' },
-  { file:'assets/6.before.jpeg', label:'Obra 6 â Antes', desc:'Obra 6 â estado inicial' },
-  { file:'assets/6.after.jpeg',  label:'Obra 6 â Depois', desc:'Obra 6 â resultado final' },
+  { file:'assets/1.before.jpeg', label:'Obra 1 — Antes', desc:'Capoto ETICS — estado inicial' },
+  { file:'assets/1.after.jpeg',  label:'Obra 1 — Depois', desc:'Capoto ETICS — resultado final' },
+  { file:'assets/2.before.jpeg', label:'Obra 2 — Antes', desc:'Reboco Projetado — estado inicial' },
+  { file:'assets/2.after.jpeg',  label:'Obra 2 — Depois', desc:'Reboco Projetado — resultado final' },
+  { file:'assets/3.before.jpeg', label:'Obra 3 — Antes', desc:'Impermeabilização — estado inicial' },
+  { file:'assets/3.after.jpeg',  label:'Obra 3 — Depois', desc:'Impermeabilização — resultado final' },
+  { file:'assets/4.before.jpeg', label:'Obra 4 — Antes', desc:'Pinturas — estado inicial' },
+  { file:'assets/4.after.jpeg',  label:'Obra 4 — Depois', desc:'Pinturas — resultado final' },
+  { file:'assets/5.before.jpeg', label:'Obra 5 — Antes', desc:'Obra 5 — estado inicial' },
+  { file:'assets/5.after.jpeg',  label:'Obra 5 — Depois', desc:'Obra 5 — resultado final' },
+  { file:'assets/6.before.jpeg', label:'Obra 6 — Antes', desc:'Obra 6 — estado inicial' },
+  { file:'assets/6.after.jpeg',  label:'Obra 6 — Depois', desc:'Obra 6 — resultado final' },
 ];
 
 const PROJECTS = [
-  { name:'Hotel Santo', tag:'Capoto ETICS', photos:[
+  { name:'testing Hotel Santo', tag:'Capoto ETICS', photos:[
     'assets/Capoto_Etics_Hotel_Santo/Project_Hotel_Santo_01.jpeg',
     'assets/Capoto_Etics_Hotel_Santo/Project_Hotel_Santo_02.jpeg'
   ]},
@@ -349,7 +349,7 @@ const PROJECTS = [
   ]},
 ];
 
-// âââ AUTH âââââââââââââââââââââââââââââââââââââââââââââââââ
+// ─── AUTH ─────────────────────────────────────────────────
 function doLogin(){
   const pw = document.getElementById('pw-input').value;
   if(pw === ADMIN_PASSWORD){
@@ -364,7 +364,7 @@ function doLogin(){
 document.getElementById('pw-input').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
 function doLogout(){document.getElementById('login-screen').style.display='flex';document.getElementById('app').style.display='none';document.getElementById('pw-input').value=''}
 
-// âââ TOKEN âââââââââââââââââââââââââââââââââââââââââââââââ
+// ─── TOKEN ───────────────────────────────────────────────
 (function(){
   const _v = 'mq_v3';
   if(localStorage.getItem(_v)) return;
@@ -382,12 +382,12 @@ function saveToken(){
   localStorage.setItem('mq_gh_token',t);
   const st=document.getElementById('token-status');
   st.className='token-status ok';
-  st.textContent='â Token guardado! JÃ¡ podes substituir fotos.';
+  st.textContent='✅ Token guardado! Já podes substituir fotos.';
   document.getElementById('setup-banner').style.borderColor='rgba(46,204,113,0.4)';
   refreshButtons();
 }
 
-// âââ INIT âââââââââââââââââââââââââââââââââââââââââââââââââ
+// ─── INIT ─────────────────────────────────────────────────
 function initApp(){
   if(getToken()) document.getElementById('setup-banner').style.display='none';
   else document.getElementById('token-input').value='';
@@ -415,7 +415,7 @@ function buildGrid(containerId, images){
         <div class="img-filename">${img.file}</div>
         <input type="file" accept="${mime}" class="file-input" id="file_${safeId}" onchange="handleFile(event,'${img.file}','${safeId}')">
         <button class="change-btn" id="btn_${safeId}" onclick="document.getElementById('file_${safeId}').click()">
-          ð· Trocar Foto
+          📷 Trocar Foto
         </button>
       </div>`;
     c.appendChild(card);
@@ -429,13 +429,13 @@ function buildProjects(){
     const wrap=document.createElement('div');
     wrap.style.cssText='background:#161614;border:1px solid rgba(200,154,58,0.15);border-radius:14px;margin-bottom:12px;overflow:hidden';
 
-    // ââ HEADER ââ
+    // ── HEADER ──
     const header=document.createElement('div');
     header.style.cssText='display:flex;align-items:center;gap:10px;padding:14px 20px;cursor:pointer;user-select:none';
 
     // folder icon
     const icon=document.createElement('span');
-    icon.textContent='ð';
+    icon.textContent='📁';
     icon.style.flexShrink='0';
 
     // title label (click to expand)
@@ -445,28 +445,28 @@ function buildProjects(){
 
     // small edit button
     const editBtn=document.createElement('button');
-    editBtn.innerHTML='âï¸';
+    editBtn.innerHTML='✏️';
     editBtn.title='Mudar nome';
     editBtn.style.cssText='background:rgba(200,154,58,0.15);border:1px solid rgba(200,154,58,0.3);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;flex-shrink:0;color:#c89a3a';
 
     // photo count
     const countEl=document.createElement('div');
     countEl.style.cssText='font-size:12px;color:#7a7a72;flex-shrink:0';
-    countEl.textContent=`${proj.photos.length} foto${proj.photos.length>1?'s':''}  â¼`;
+    countEl.textContent=`${proj.photos.length} foto${proj.photos.length>1?'s':''}  ▼`;
 
     header.appendChild(icon);
     header.appendChild(nameEl);
     header.appendChild(editBtn);
     header.appendChild(countEl);
 
-    // ââ INLINE RENAME FORM (hidden by default) ââ
+    // ── INLINE RENAME FORM (hidden by default) ──
     const renameRow=document.createElement('div');
     renameRow.style.cssText='display:none;padding:0 20px 14px;gap:8px;align-items:center';
     const renameInput=document.createElement('input');
     renameInput.value=proj.name;
     renameInput.style.cssText='flex:1;background:#0d0d0b;border:1px solid #c89a3a;border-radius:8px;padding:8px 12px;color:#f0ede8;font-size:13px;font-weight:600;outline:none';
     const saveBtn=document.createElement('button');
-    saveBtn.textContent='ð¾ Guardar';
+    saveBtn.textContent='💾 Guardar';
     saveBtn.style.cssText='background:#c89a3a;color:#0a0a0a;font-weight:700;font-size:12px;padding:8px 14px;border:none;border-radius:8px;cursor:pointer;white-space:nowrap';
     const cancelBtn=document.createElement('button');
     cancelBtn.textContent='Cancelar';
@@ -476,7 +476,7 @@ function buildProjects(){
     renameRow.appendChild(saveBtn);
     renameRow.appendChild(cancelBtn);
 
-    // ââ PHOTOS BODY ââ
+    // ── PHOTOS BODY ──
     const body=document.createElement('div');
     body.style.cssText='display:none;padding:0 16px 16px;';
     const grid=document.createElement('div');
@@ -493,37 +493,37 @@ function buildProjects(){
           <div class="img-label">Foto ${num}</div>
           <input type="file" accept="image/*" class="file-input" id="file_${safeId}" onchange="handleFile(event,'${file}','${safeId}')">
           <div style="display:flex;gap:6px;margin-top:0">
-            <button class="change-btn" id="btn_${safeId}" onclick="document.getElementById('file_${safeId}').click()" style="flex:1">ð· Trocar</button>
-            <button onclick="deletePhoto('${file}','${safeId}',this)" title="Apagar foto" style="background:rgba(192,40,30,0.15);border:1px solid rgba(192,40,30,0.4);color:#e74c3c;border-radius:8px;padding:10px 10px;cursor:pointer;font-size:14px;flex-shrink:0">ðï¸</button>
+            <button class="change-btn" id="btn_${safeId}" onclick="document.getElementById('file_${safeId}').click()" style="flex:1">📷 Trocar</button>
+            <button onclick="deletePhoto('${file}','${safeId}',this)" title="Apagar foto" style="background:rgba(192,40,30,0.15);border:1px solid rgba(192,40,30,0.4);color:#e74c3c;border-radius:8px;padding:10px 10px;cursor:pointer;font-size:14px;flex-shrink:0">🗑️</button>
           </div>
         </div>`;
       grid.appendChild(card);
     });
-    // ââ TAG EDITOR (inside body) ââ
+    // ── TAG EDITOR (inside body) ──
     const tagRow=document.createElement('div');
     tagRow.style.cssText='display:flex;align-items:center;gap:8px;margin-top:14px;padding:12px;background:#0d0d0b;border-radius:10px;border:1px solid rgba(200,154,58,0.15)';
     const tagLabel=document.createElement('span');
-    tagLabel.textContent='ð·ï¸ SubtÃ­tulo:';
+    tagLabel.textContent='🏷️ Subtítulo:';
     tagLabel.style.cssText='font-size:11px;font-weight:700;color:#c89a3a;white-space:nowrap';
     const tagInput=document.createElement('input');
     tagInput.value=proj.tag||'';
-    tagInput.placeholder='ex: Capoto â¢ Reboco';
+    tagInput.placeholder='ex: Capoto • Reboco';
     tagInput.style.cssText='flex:1;background:#161614;border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:7px 10px;color:#f0ede8;font-size:12px;outline:none';
     tagInput.onfocus=()=>tagInput.style.borderColor='#c89a3a';
     tagInput.onblur=()=>tagInput.style.borderColor='rgba(255,255,255,0.1)';
     const tagSaveBtn=document.createElement('button');
-    tagSaveBtn.textContent='ð¾';
-    tagSaveBtn.title='Guardar subtÃ­tulo';
+    tagSaveBtn.textContent='💾';
+    tagSaveBtn.title='Guardar subtítulo';
     tagSaveBtn.style.cssText='background:#c89a3a;color:#0a0a0a;font-weight:700;font-size:13px;padding:7px 10px;border:none;border-radius:6px;cursor:pointer';
     tagSaveBtn.onclick=async(e)=>{
       e.stopPropagation();
       const newTag=tagInput.value.trim();
-      if(newTag===proj.tag){showToast('error','SubtÃ­tulo nÃ£o foi alterado.');return;}
-      tagSaveBtn.textContent='ð';
+      if(newTag===proj.tag){showToast('error','Subtítulo não foi alterado.');return;}
+      tagSaveBtn.textContent='🔄';
       tagSaveBtn.disabled=true;
       const ok=await saveOneTag(proj.name, proj.tag, newTag);
       if(ok){ proj.tag=newTag; }
-      tagSaveBtn.textContent='ð¾';
+      tagSaveBtn.textContent='💾';
       tagSaveBtn.disabled=false;
     };
     tagRow.appendChild(tagLabel);
@@ -532,7 +532,7 @@ function buildProjects(){
     body.appendChild(grid);
     body.appendChild(tagRow);
 
-    // ââ EVENTS ââ
+    // ── EVENTS ──
     // toggle body on header click (not edit btn)
     header.onclick=(e)=>{
       if(e.target===editBtn||renameRow.contains(e.target)) return;
@@ -554,7 +554,7 @@ function buildProjects(){
       e.stopPropagation();
       const newName=renameInput.value.trim();
       if(!newName||newName===proj.name){renameRow.style.display='none';return;}
-      saveBtn.textContent='ð A guardar...';
+      saveBtn.textContent='🔄 A guardar...';
       saveBtn.disabled=true;
       const ok=await saveOneTitle(proj.name, newName);
       if(ok){
@@ -562,7 +562,7 @@ function buildProjects(){
         nameEl.textContent=newName;
         renameRow.style.display='none';
       }
-      saveBtn.textContent='ð¾ Guardar';
+      saveBtn.textContent='💾 Guardar';
       saveBtn.disabled=false;
     };
 
@@ -581,10 +581,10 @@ function buildProjects(){
 
 async function saveOneTitle(oldName, newName){
   const token = getToken();
-  if(!token){ showToast('error','â ï¸ Token em falta!'); return false; }
-  showProgress('ð A atualizar tÃ­tulo no site...');
+  if(!token){ showToast('error','⚠️ Token em falta!'); return false; }
+  showProgress('🔄 A atualizar título no site...');
   try {
-    // ââ STEP 1: Update obras.html âââââââââââââââââââââââââââââ
+    // ── STEP 1: Update obras.html ─────────────────────────────
     const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/obras.html?ref=${GITHUB_BRANCH}`,{
       headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'},
       cache:'no-store'
@@ -595,7 +595,7 @@ async function saveOneTitle(oldName, newName){
 
     const oldCallStr = `openProject('${oldName}'`;
     const newCallStr = `openProject('${newName}'`;
-    if(!content.includes(oldCallStr)) throw new Error(`Projeto "${oldName}" nÃ£o encontrado. Recarrega a pÃ¡gina.`);
+    if(!content.includes(oldCallStr)) throw new Error(`Projeto "${oldName}" não encontrado. Recarrega a página.`);
     content = content.split(oldCallStr).join(newCallStr);
 
     const oldAttr = `data-proj="${oldName}"`;
@@ -616,8 +616,8 @@ async function saveOneTitle(oldName, newName){
     });
     if(!upRes.ok){ const e=await upRes.json(); throw new Error(e.message); }
 
-    // ââ STEP 2: Update admin.html PROJECTS array on GitHub ââââ
-    showProgress('ð A sincronizar painel...');
+    // ── STEP 2: Update admin.html PROJECTS array on GitHub ────
+    showProgress('🔄 A sincronizar painel...');
     try {
       const aRes = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/admin.html?ref=${GITHUB_BRANCH}`,{
         headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'},
@@ -625,32 +625,34 @@ async function saveOneTitle(oldName, newName){
       });
       if(aRes.ok){
         const aData = await aRes.json();
+        // atob() gives a binary string (bytes as chars 0-255).
+        // Use btoa(aContent) directly — NOT encodeURIComponent — to avoid
+        // double-encoding non-ASCII bytes (emoji) which would corrupt the file.
         let aContent = atob(aData.content.replace(/\n/g,''));
-        // Replace name:'oldName' with name:'newName' in PROJECTS array
         aContent = aContent.split(`name:'${oldName}'`).join(`name:'${newName}'`);
-        const aB64 = btoa(unescape(encodeURIComponent(aContent)));
+        const aB64 = btoa(aContent);
         await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/admin.html`,{
           method:'PUT',
           headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
           body: JSON.stringify({ message:`Admin: sync PROJECTS name "${oldName}" to "${newName}"`, content: aB64, sha: aData.sha, branch: GITHUB_BRANCH })
         });
       }
-    } catch(_){} // non-fatal â obras.html already saved
+    } catch(_){} // non-fatal — obras.html already saved
 
     hideProgress();
-    showToast('success',`â "${newName}" guardado! Site atualiza em ~60s.`);
+    showToast('success',`✅ "${newName}" guardado! Podes renomear outro já. Site público atualiza em ~60s.`);
     return true;
   } catch(e){
     hideProgress();
-    showToast('error','â ' + (e.message||'Erro desconhecido'));
+    showToast('error','❌ ' + (e.message||'Erro desconhecido'));
     return false;
   }
 }
 
 async function saveOneTag(projName, oldTag, newTag){
   const token = getToken();
-  if(!token){ showToast('error','â ï¸ Token em falta!'); return false; }
-  showProgress('ð A atualizar subtÃ­tulo no site...');
+  if(!token){ showToast('error','⚠️ Token em falta!'); return false; }
+  showProgress('🔄 A atualizar subtítulo no site...');
   try {
     const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/obras.html?ref=${GITHUB_BRANCH}`,{
       headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'},
@@ -660,15 +662,13 @@ async function saveOneTag(projName, oldTag, newTag){
     const data = await res.json();
     let content = atob(data.content.replace(/\n/g,''));
 
-    // Anchor on data-proj="projName" inside proj-info, then replace the proj-tag text before it
-    // Pattern: <div class="proj-tag">OLDTAG</div><div class="proj-name" data-proj="projName">
+    // Anchor on data-proj to find and replace this project's tag
     const escapedName = projName.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
     const tagPattern = new RegExp(
       '(<div class="proj-tag">)([^<]*)(</div><div class="proj-name" data-proj="' + escapedName + '">)',
       'g'
     );
-    if(!tagPattern.test(content)) throw new Error(`Projeto "${projName}" nÃ£o encontrado. Tenta recarregar a pÃ¡gina.`);
-    // Reset lastIndex after test()
+    if(!tagPattern.test(content)) throw new Error(`Projeto "${projName}" não encontrado. Tenta recarregar a página.`);
     tagPattern.lastIndex = 0;
     content = content.replace(tagPattern, '$1' + newTag + '$3');
 
@@ -680,11 +680,11 @@ async function saveOneTag(projName, oldTag, newTag){
     });
     if(!upRes.ok){ const e=await upRes.json(); throw new Error(e.message); }
     hideProgress();
-    showToast('success',`â SubtÃ­tulo atualizado! Site atualiza em ~60s.`);
+    showToast('success',`✅ Subtítulo guardado! Podes mudar outro já. Site público atualiza em ~60s.`);
     return true;
   } catch(e){
     hideProgress();
-    showToast('error','â ' + (e.message||'Erro desconhecido'));
+    showToast('error','❌ ' + (e.message||'Erro desconhecido'));
     return false;
   }
 }
@@ -694,12 +694,12 @@ function refreshButtons(){
   document.querySelectorAll('.change-btn').forEach(b=>{b.disabled=!has});
 }
 
-// âââ DELETE PHOTO âââââââââââââââââââââââââââââââââââââââââ
+// ─── DELETE PHOTO ─────────────────────────────────────────
 async function deletePhoto(filePath, safeId, btn){
-  if(!confirm(`Apagar esta foto?\n${filePath}\n\nEsta aÃ§Ã£o nÃ£o pode ser desfeita!`)) return;
+  if(!confirm(`Apagar esta foto?\n${filePath}\n\nEsta ação não pode ser desfeita!`)) return;
   const token=getToken();
-  if(!token){showToast('error','â ï¸ Token em falta!');return;}
-  btn.textContent='ð';
+  if(!token){showToast('error','⚠️ Token em falta!');return;}
+  btn.textContent='🔄';
   btn.disabled=true;
   showProgress('A apagar foto...');
   try{
@@ -708,7 +708,7 @@ async function deletePhoto(filePath, safeId, btn){
       headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'},
       cache:'no-store'
     });
-    if(!shaRes.ok) throw new Error('Ficheiro nÃ£o encontrado no GitHub');
+    if(!shaRes.ok) throw new Error('Ficheiro não encontrado no GitHub');
     const {sha}=await shaRes.json();
 
     // 2. Delete file from GitHub
@@ -739,21 +739,21 @@ async function deletePhoto(filePath, safeId, btn){
     hideProgress();
     const cardEl=document.getElementById('card_'+safeId);
     if(cardEl) cardEl.remove();
-    showToast('success','â Foto apagada! Site atualiza em ~60s.');
+    showToast('success','✅ Foto apagada! Site atualiza em ~60s.');
   }catch(e){
     hideProgress();
-    btn.textContent='ðï¸';
+    btn.textContent='🗑️';
     btn.disabled=false;
-    showToast('error','â '+(e.message||'Erro ao apagar'));
+    showToast('error','❌ '+(e.message||'Erro ao apagar'));
   }
 }
 
-// âââ UPLOAD ââââââââââââââââââââââââââââââââââââââââââââââ
+// ─── UPLOAD ──────────────────────────────────────────────
 async function handleFile(event, filePath, safeId){
   const file=event.target.files[0];
   if(!file) return;
   const token=getToken();
-  if(!token){showToast('error','â ï¸ Guarda o token do GitHub primeiro!');return}
+  if(!token){showToast('error','⚠️ Guarda o token do GitHub primeiro!');return}
 
   showProgress('A ler a foto...');
 
@@ -795,10 +795,10 @@ async function handleFile(event, filePath, safeId){
     reader.onload=e=>{document.getElementById(`prev_${safeId}`).src=e.target.result};
     reader.readAsDataURL(file);
 
-    showToast('success','â Foto guardada! Podes trocar a prÃ³xima jÃ¡. Site pÃºblico atualiza em ~60s.');
+    showToast('success','✅ Foto guardada! Podes trocar a próxima já. Site público atualiza em ~60s.');
   } catch(e){
     hideProgress();
-    showToast('error','â Erro: '+(e.message||'Verifica o token e a ligaÃ§Ã£o.'));
+    showToast('error','❌ Erro: '+(e.message||'Verifica o token e a ligação.'));
     console.error(e);
   }
   event.target.value='';
@@ -813,7 +813,7 @@ function fileToBase64(file){
   });
 }
 
-// âââ UI HELPERS ââââââââââââââââââââââââââââââââââââââââââ
+// ─── UI HELPERS ──────────────────────────────────────────
 function showProgress(msg){
   document.getElementById('progress-msg').textContent=msg;
   document.getElementById('progress-overlay').style.display='flex';
