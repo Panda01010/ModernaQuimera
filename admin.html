@@ -429,12 +429,16 @@ function buildProjects(){
       const num=fi+1;
       const card=document.createElement('div');
       card.className='img-card';
+      card.id='card_'+safeId;
       card.innerHTML=`
         <img class="img-preview" id="prev_${safeId}" src="${file}?v=${Date.now()}" alt="Foto ${num}" onerror="this.style.background='#1c1c1a'">
         <div class="img-card-body">
           <div class="img-label">Foto ${num}</div>
           <input type="file" accept="image/*" class="file-input" id="file_${safeId}" onchange="handleFile(event,'${file}','${safeId}')">
-          <button class="change-btn" id="btn_${safeId}" onclick="document.getElementById('file_${safeId}').click()">📷 Trocar</button>
+          <div style="display:flex;gap:6px;margin-top:0">
+            <button class="change-btn" id="btn_${safeId}" onclick="document.getElementById('file_${safeId}').click()" style="flex:1">📷 Trocar</button>
+            <button onclick="deletePhoto('${file}','${safeId}',this)" title="Apagar foto" style="background:rgba(192,40,30,0.15);border:1px solid rgba(192,40,30,0.4);color:#e74c3c;border-radius:8px;padding:10px 10px;cursor:pointer;font-size:14px;flex-shrink:0">🗑️</button>
+          </div>
         </div>`;
       grid.appendChild(card);
     });
@@ -587,6 +591,58 @@ async function saveOneTag(projName, oldTag, newTag){
 function refreshButtons(){
   const has=!!getToken();
   document.querySelectorAll('.change-btn').forEach(b=>{b.disabled=!has});
+}
+
+// ─── DELETE PHOTO ─────────────────────────────────────────
+async function deletePhoto(filePath, safeId, btn){
+  if(!confirm(`Apagar esta foto?\n${filePath}\n\nEsta ação não pode ser desfeita!`)) return;
+  const token=getToken();
+  if(!token){showToast('error','⚠️ Token em falta!');return;}
+  btn.textContent='🔄';
+  btn.disabled=true;
+  showProgress('A apagar foto...');
+  try{
+    // 1. Get SHA of the file
+    const shaRes=await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}?ref=${GITHUB_BRANCH}`,{
+      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'}
+    });
+    if(!shaRes.ok) throw new Error('Ficheiro não encontrado no GitHub');
+    const {sha}=await shaRes.json();
+
+    // 2. Delete file from GitHub
+    const delRes=await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}`,{
+      method:'DELETE',
+      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify({message:`Admin: delete ${filePath}`,sha,branch:GITHUB_BRANCH})
+    });
+    if(!delRes.ok){const e=await delRes.json();throw new Error(e.message);}
+
+    // 3. Remove reference from obras.html
+    const obRes=await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/obras.html?ref=${GITHUB_BRANCH}`,{
+      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'}
+    });
+    if(obRes.ok){
+      const obData=await obRes.json();
+      let content=atob(obData.content.replace(/\n/g,''));
+      content=content.split(`'${filePath}',`).join('').split(`,'${filePath}'`).join('').split(`'${filePath}'`).join('');
+      const b64=btoa(unescape(encodeURIComponent(content)));
+      await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/obras.html`,{
+        method:'PUT',
+        headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+        body:JSON.stringify({message:`Admin: remove ${filePath} from gallery`,content:b64,sha:obData.sha,branch:GITHUB_BRANCH})
+      });
+    }
+
+    hideProgress();
+    const cardEl=document.getElementById('card_'+safeId);
+    if(cardEl) cardEl.remove();
+    showToast('success','✅ Foto apagada! Site atualiza em ~60s.');
+  }catch(e){
+    hideProgress();
+    btn.textContent='🗑️';
+    btn.disabled=false;
+    showToast('error','❌ '+(e.message||'Erro ao apagar'));
+  }
 }
 
 // ─── UPLOAD ──────────────────────────────────────────────
