@@ -353,6 +353,7 @@ const PROJECTS = [
 function doLogin(){
   const pw = document.getElementById('pw-input').value;
   if(pw === ADMIN_PASSWORD){
+    localStorage.setItem('mq_pw','1'); // remember that this browser is authenticated
     document.getElementById('login-screen').style.display='none';
     document.getElementById('app').style.display='block';
     initApp();
@@ -362,7 +363,13 @@ function doLogin(){
   }
 }
 document.getElementById('pw-input').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
-function doLogout(){document.getElementById('login-screen').style.display='flex';document.getElementById('app').style.display='none';document.getElementById('pw-input').value=''}
+function doLogout(){
+  localStorage.removeItem('mq_pw');
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('app').style.display='none';
+  document.getElementById('pw-input').value='';
+}
+
 
 // ─── TOKEN ───────────────────────────────────────────────
 (function(){
@@ -385,6 +392,14 @@ function saveToken(){
   st.textContent='✅ Token guardado! Já podes substituir fotos.';
   document.getElementById('setup-banner').style.borderColor='rgba(46,204,113,0.4)';
   refreshButtons();
+}
+
+// Auto-login if already authenticated in this browser (runs after token is ready)
+if(localStorage.getItem('mq_pw')==='1'){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.addEventListener('DOMContentLoaded', initApp);
+  if(document.readyState!=='loading') initApp();
 }
 
 // ─── INIT ─────────────────────────────────────────────────
