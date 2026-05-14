@@ -293,7 +293,7 @@ const IMAGES_PORTFOLIO = [
 ];
 
 const PROJECTS = [
-  { name:'Hotel Santo', tag:'Capoto ETICS', photos:[
+  { name:'testing Hotel Santo', tag:'Capoto ETICS', photos:[
     'assets/Capoto_Etics_Hotel_Santo/Project_Hotel_Santo_01.jpeg',
     'assets/Capoto_Etics_Hotel_Santo/Project_Hotel_Santo_02.jpeg'
   ]},
@@ -584,6 +584,7 @@ async function saveOneTitle(oldName, newName){
   if(!token){ showToast('error','⚠️ Token em falta!'); return false; }
   showProgress('🔄 A atualizar título no site...');
   try {
+    // ── STEP 1: Update obras.html ─────────────────────────────
     const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/obras.html?ref=${GITHUB_BRANCH}`,{
       headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'}
     });
@@ -591,22 +592,18 @@ async function saveOneTitle(oldName, newName){
     const data = await res.json();
     let content = atob(data.content.replace(/\n/g,''));
 
-    // 1. Replace openProject() call argument
     const oldCallStr = `openProject('${oldName}'`;
     const newCallStr = `openProject('${newName}'`;
     if(!content.includes(oldCallStr)) throw new Error(`Projeto "${oldName}" não encontrado. Recarrega a página.`);
     content = content.split(oldCallStr).join(newCallStr);
 
-    // 2. Replace data-proj attributes (both on proj-card and proj-name elements)
     const oldAttr = `data-proj="${oldName}"`;
     const newAttr = `data-proj="${newName}"`;
     content = content.split(oldAttr).join(newAttr);
 
-    // 3. Update the displayed proj-name text using data-proj as anchor
     const escapedNew = newName.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
     const namePattern = new RegExp(
-      '(<div class="proj-name" data-proj="' + escapedNew + '">)([^<]*)(</div>)',
-      'g'
+      '(<div class="proj-name" data-proj="' + escapedNew + '">)([^<]*)(</div>)', 'g'
     );
     content = content.replace(namePattern, '$1' + newName.toUpperCase() + '$3');
 
@@ -617,6 +614,27 @@ async function saveOneTitle(oldName, newName){
       body: JSON.stringify({ message:`Admin: rename "${oldName}" to "${newName}"`, content: b64, sha: data.sha, branch: GITHUB_BRANCH })
     });
     if(!upRes.ok){ const e=await upRes.json(); throw new Error(e.message); }
+
+    // ── STEP 2: Update admin.html PROJECTS array on GitHub ────
+    showProgress('🔄 A sincronizar painel...');
+    try {
+      const aRes = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/admin.html?ref=${GITHUB_BRANCH}`,{
+        headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'}
+      });
+      if(aRes.ok){
+        const aData = await aRes.json();
+        let aContent = atob(aData.content.replace(/\n/g,''));
+        // Replace name:'oldName' with name:'newName' in PROJECTS array
+        aContent = aContent.split(`name:'${oldName}'`).join(`name:'${newName}'`);
+        const aB64 = btoa(unescape(encodeURIComponent(aContent)));
+        await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/admin.html`,{
+          method:'PUT',
+          headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+          body: JSON.stringify({ message:`Admin: sync PROJECTS name "${oldName}" to "${newName}"`, content: aB64, sha: aData.sha, branch: GITHUB_BRANCH })
+        });
+      }
+    } catch(_){} // non-fatal — obras.html already saved
+
     hideProgress();
     showToast('success',`✅ "${newName}" guardado! Site atualiza em ~60s.`);
     return true;
