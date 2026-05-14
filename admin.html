@@ -202,22 +202,6 @@ a{text-decoration:none;color:inherit}
       <div id="proj-accordion"></div>
     </div>
 
-    <!-- EDITAR TÍTULOS -->
-    <div class="section">
-      <div class="section-header">
-        <div class="section-icon">✏️</div>
-        <div>
-          <h2>Editar Títulos dos Projetos</h2>
-          <p>Muda o nome de qualquer projeto na página Obras. Clica Guardar quando acabares.</p>
-        </div>
-      </div>
-      <div id="titles-list"></div>
-      <div style="margin-top:20px">
-        <button class="change-btn" id="save-titles-btn" onclick="saveTitles()" style="max-width:220px;background:#c89a3a;color:#0a0a0a;border:none">💾 Guardar Títulos no Site</button>
-        <div id="titles-status" style="font-size:12px;margin-top:10px;color:#7a7a72"></div>
-      </div>
-    </div>
-
   </div>
 </div>
 
@@ -353,7 +337,6 @@ function initApp(){
   buildGrid('grid-main', IMAGES_MAIN);
   buildGrid('grid-portfolio', IMAGES_PORTFOLIO);
   buildProjects();
-  buildTitles();
 }
 
 function buildGrid(containerId, images){
@@ -388,9 +371,55 @@ function buildProjects(){
   PROJECTS.forEach((proj,pi)=>{
     const wrap=document.createElement('div');
     wrap.style.cssText='background:#161614;border:1px solid rgba(200,154,58,0.15);border-radius:14px;margin-bottom:12px;overflow:hidden';
+
+    // ── HEADER ──
     const header=document.createElement('div');
-    header.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer;user-select:none';
-    header.innerHTML=`<div style="font-weight:700;font-size:14px">📁 ${proj.name}</div><div style="font-size:12px;color:#7a7a72">${proj.photos.length} foto${proj.photos.length>1?'s':''} &nbsp;▼</div>`;
+    header.style.cssText='display:flex;align-items:center;gap:10px;padding:14px 20px;cursor:pointer;user-select:none';
+
+    // folder icon
+    const icon=document.createElement('span');
+    icon.textContent='📁';
+    icon.style.flexShrink='0';
+
+    // title label (click to expand)
+    const nameEl=document.createElement('div');
+    nameEl.textContent=proj.name;
+    nameEl.style.cssText='font-weight:700;font-size:14px;flex:1';
+
+    // small edit button
+    const editBtn=document.createElement('button');
+    editBtn.innerHTML='✏️';
+    editBtn.title='Mudar nome';
+    editBtn.style.cssText='background:rgba(200,154,58,0.15);border:1px solid rgba(200,154,58,0.3);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;flex-shrink:0;color:#c89a3a';
+
+    // photo count
+    const countEl=document.createElement('div');
+    countEl.style.cssText='font-size:12px;color:#7a7a72;flex-shrink:0';
+    countEl.textContent=`${proj.photos.length} foto${proj.photos.length>1?'s':''}  ▼`;
+
+    header.appendChild(icon);
+    header.appendChild(nameEl);
+    header.appendChild(editBtn);
+    header.appendChild(countEl);
+
+    // ── INLINE RENAME FORM (hidden by default) ──
+    const renameRow=document.createElement('div');
+    renameRow.style.cssText='display:none;padding:0 20px 14px;gap:8px;align-items:center';
+    const renameInput=document.createElement('input');
+    renameInput.value=proj.name;
+    renameInput.style.cssText='flex:1;background:#0d0d0b;border:1px solid #c89a3a;border-radius:8px;padding:8px 12px;color:#f0ede8;font-size:13px;font-weight:600;outline:none';
+    const saveBtn=document.createElement('button');
+    saveBtn.textContent='💾 Guardar';
+    saveBtn.style.cssText='background:#c89a3a;color:#0a0a0a;font-weight:700;font-size:12px;padding:8px 14px;border:none;border-radius:8px;cursor:pointer;white-space:nowrap';
+    const cancelBtn=document.createElement('button');
+    cancelBtn.textContent='Cancelar';
+    cancelBtn.style.cssText='background:transparent;color:#7a7a72;font-size:12px;padding:8px 10px;border:1px solid rgba(255,255,255,0.1);border-radius:8px;cursor:pointer';
+    renameRow.style.display='none';
+    renameRow.appendChild(renameInput);
+    renameRow.appendChild(saveBtn);
+    renameRow.appendChild(cancelBtn);
+
+    // ── PHOTOS BODY ──
     const body=document.createElement('div');
     body.style.cssText='display:none;padding:0 16px 16px;';
     const grid=document.createElement('div');
@@ -401,8 +430,7 @@ function buildProjects(){
       const card=document.createElement('div');
       card.className='img-card';
       card.innerHTML=`
-        <img class="img-preview" id="prev_${safeId}" src="${file}?v=${Date.now()}" alt="Foto ${num}"
-          onerror="this.style.background='#1c1c1a'">
+        <img class="img-preview" id="prev_${safeId}" src="${file}?v=${Date.now()}" alt="Foto ${num}" onerror="this.style.background='#1c1c1a'">
         <div class="img-card-body">
           <div class="img-label">Foto ${num}</div>
           <input type="file" accept="image/*" class="file-input" id="file_${safeId}" onchange="handleFile(event,'${file}','${safeId}')">
@@ -411,92 +439,84 @@ function buildProjects(){
       grid.appendChild(card);
     });
     body.appendChild(grid);
-    header.onclick=()=>{ const open=body.style.display==='block'; body.style.display=open?'none':'block'; header.querySelector('div:last-child').textContent=`${proj.photos.length} foto${proj.photos.length>1?'s':''} ${open?'▼':'▲'}`; };
+
+    // ── EVENTS ──
+    // toggle body on header click (not edit btn)
+    header.onclick=(e)=>{
+      if(e.target===editBtn||renameRow.contains(e.target)) return;
+      const open=body.style.display==='block';
+      body.style.display=open?'none':'block';
+      renameRow.style.display='none';
+      countEl.textContent=`${proj.photos.length} foto${proj.photos.length>1?'s':''} ${open?'\u25bc':'\u25b2'}`;
+    };
+
+    // open rename on edit btn click
+    editBtn.onclick=(e)=>{
+      e.stopPropagation();
+      renameRow.style.display=renameRow.style.display==='flex'?'none':'flex';
+      if(renameRow.style.display==='flex') renameInput.focus();
+    };
+
+    // save rename
+    saveBtn.onclick=async(e)=>{
+      e.stopPropagation();
+      const newName=renameInput.value.trim();
+      if(!newName||newName===proj.name){renameRow.style.display='none';return;}
+      saveBtn.textContent='🔄 A guardar...';
+      saveBtn.disabled=true;
+      const ok=await saveOneTitle(proj.name, newName);
+      if(ok){
+        proj.name=newName;
+        nameEl.textContent=newName;
+        renameRow.style.display='none';
+      }
+      saveBtn.textContent='💾 Guardar';
+      saveBtn.disabled=false;
+    };
+
+    cancelBtn.onclick=(e)=>{
+      e.stopPropagation();
+      renameInput.value=proj.name;
+      renameRow.style.display='none';
+    };
+
     wrap.appendChild(header);
+    wrap.appendChild(renameRow);
     wrap.appendChild(body);
     acc.appendChild(wrap);
   });
 }
 
-// ─── TITLES ──────────────────────────────────────────────
-// Current titles as they exist in obras.html (must match exactly)
-const PROJ_TITLES = [
-  'Capoto ETICS - Hotel Santo',
-  'Capoto ETICS - Porto Santo',
-  'Obra Diversos',
-  'Obra Eiras',
-  'Obra LSF',
-  'Obra Paul do Mar',
-  'Reboco Termico - Camara de Lobos',
-  'Reboco Termico - Porto Santo',
-  'Edificio - Reboco Projectado'
-];
-
-function buildTitles(){
-  const list = document.getElementById('titles-list');
-  list.innerHTML = '';
-  PROJ_TITLES.forEach((title, i) => {
-    const row = document.createElement('div');
-    row.style.cssText = 'display:flex;align-items:center;gap:12px;background:#161614;border:1px solid rgba(200,154,58,0.15);border-radius:10px;padding:14px 16px;margin-bottom:10px';
-    row.innerHTML = `
-      <div style="font-size:11px;font-weight:700;color:#c89a3a;min-width:20px;text-align:center">${i+1}</div>
-      <input id="title_${i}" value="${title}" style="flex:1;background:#0d0d0b;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 14px;color:#f0ede8;font-size:13px;font-weight:600" onfocus="this.style.borderColor='#c89a3a'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
-      <div style="font-size:10px;color:#7a7a72;white-space:nowrap">obras.html</div>
-    `;
-    list.appendChild(row);
-  });
-}
-
-async function saveTitles(){
+async function saveOneTitle(oldName, newName){
   const token = getToken();
-  if(!token){ showToast('error','⚠️ Guarda o token do GitHub primeiro!'); return; }
-
-  const newTitles = PROJ_TITLES.map((_, i) => document.getElementById('title_'+i).value.trim());
-  const changed = PROJ_TITLES.map((old, i) => ({ old, new: newTitles[i] })).filter(p => p.old !== p.new);
-  if(!changed.length){ showToast('error','Nenhum título foi alterado.'); return; }
-
-  const statusEl = document.getElementById('titles-status');
-  statusEl.textContent = '🔄 A carregar obras.html do GitHub...';
-  document.getElementById('save-titles-btn').disabled = true;
-
+  if(!token){ showToast('error','⚠️ Token em falta!'); return false; }
+  showProgress('🔄 A atualizar título no site...');
   try {
-    // Fetch current obras.html
     const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/obras.html?ref=${GITHUB_BRANCH}`,{
       headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'}
     });
-    if(!res.ok) throw new Error('Erro ao ler obras.html');
+    if(!res.ok) throw new Error('Erro ao ler obras.html: ' + res.status);
     const data = await res.json();
-    const sha = data.sha;
     let content = atob(data.content.replace(/\n/g,''));
-
-    // Replace each changed title
-    changed.forEach(p => {
-      // replace in openProject('Title',...) calls
-      content = content.split(`openProject('${p.old}'`).join(`openProject('${p.new}'`);
-      // replace in proj-name divs (uppercase version)
-      content = content.split(p.old.toUpperCase()).join(p.new.toUpperCase());
-    });
-
-    statusEl.textContent = '🔄 A guardar no GitHub...';
-
+    // replace in openProject() call
+    content = content.split(`openProject('${oldName}'`).join(`openProject('${newName}'`);
+    // replace uppercase display name in proj-name div
+    content = content.split(oldName.toUpperCase()).join(newName.toUpperCase());
     const b64 = btoa(unescape(encodeURIComponent(content)));
     const upRes = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/obras.html`,{
       method:'PUT',
       headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
-      body: JSON.stringify({ message:'Admin: update project titles', content: b64, sha, branch: GITHUB_BRANCH })
+      body: JSON.stringify({ message:`Admin: rename "${oldName}" to "${newName}"`, content: b64, sha: data.sha, branch: GITHUB_BRANCH })
     });
-    if(!upRes.ok){ const e=await upRes.json(); throw new Error(e.message||'Erro'); }
-
-    // Update local PROJ_TITLES so save works again without reload
-    newTitles.forEach((t,i) => PROJ_TITLES[i] = t);
-
-    statusEl.textContent = '';
-    showToast('success', `✅ ${changed.length} título(s) atualizados! Site atualiza em ~60s.`);
+    if(!upRes.ok){ const e=await upRes.json(); throw new Error(e.message); }
+    hideProgress();
+    showToast('success',`✅ "${newName}" guardado! Site atualiza em ~60s.`);
+    return true;
   } catch(e){
-    statusEl.textContent = '';
-    showToast('error', '❌ ' + (e.message||'Erro desconhecido'));
+    hideProgress();
+    showToast('error','❌ ' + (e.message||'Erro desconhecido'));
+    return false;
   }
-  document.getElementById('save-titles-btn').disabled = false;
 }
 
 function refreshButtons(){
