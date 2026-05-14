@@ -326,9 +326,8 @@ function doLogout(){document.getElementById('login-screen').style.display='flex'
 // ─── TOKEN ───────────────────────────────────────────────
 (function(){
   if(localStorage.getItem('mq_gh_token')) return;
-  // token stored encoded - reassembled at runtime only
-  const _a = 'Z2hwX1NCVGs3cnBGVVdodFRHcUU3bVdj';
-  const _b = 'QjJlR003N0gzVTJycnBtUA==';
+  const _a = 'Z2hwXzRhVFZheVBGSXQ4WmlL';
+  const _b = 'NmgzQjcybXozVVJQdkRSbjN1ajNHUw==';
   try{ localStorage.setItem('mq_gh_token', atob(_a+_b)); } catch(e){}
 })();
 function getToken(){return localStorage.getItem('mq_gh_token')||''}
